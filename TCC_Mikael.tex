@@ -1,0 +1,388 @@
+% !TEX TS-program = pdfLaTeX+MakeIndex+BibTeX
+% !TEX encoding = UTF-8 Unicode
+
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{naturalnames}{hyperref}
+%\listfiles
+\documentclass[tg]{mdtufsm}
+% um tipo específico de monografia pode ser informado como parâmetro opcional:
+%\documentclass[tese]{mdtufsm}
+% a opção `openright' pode ser usada para forçar inícios de capítulos
+% em páginas ímpares
+% \documentclass[openright]{mdtufsm}
+% para gerar uma versão frente-e-verso, use a opção 'twoside':
+% \documentclass[twoside]{mdtufsm}
+
+\usepackage[T1]{fontenc}        % pacote para conj. de caracteres correto
+\usepackage{fix-cm} %para funcionar corretamente o tamanho das fontes da capa
+\usepackage{microtype} % Nicer text flowing & typography
+\usepackage{times, color, xcolor}       % pacote para usar fonte Adobe Times e cores
+\usepackage{xcolor}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{dred}{rgb}{0.545,0,0}
+\definecolor{dblue}{rgb}{0,0,0.545}
+\definecolor{lgrey}{rgb}{0.9,0.9,0.9}
+\definecolor{gray}{rgb}{0.4,0.4,0.4}
+\definecolor{darkblue}{rgb}{0.0,0.0,0.6}
+%\lstdefinelanguage{cpp}{
+%	backgroundcolor=\color{lgrey},  
+%	basicstyle=\footnotesize \ttfamily \color{black} \bfseries,   
+%	breakatwhitespace=false,       
+%	breaklines=true,               
+%	captionpos=b,                   
+%	commentstyle=\color{dkgreen},   
+%	deletekeywords={...},          
+%	escapeinside={\%*}{*)},                  
+%	frame=single,                  
+%	language=C++,                
+%	keywordstyle=\color{purple},  
+%	morekeywords={BRIEFDescriptorConfig,string,TiXmlNode,DetectorDescriptorConfigContainer,istringstream,cerr,exit}, 
+%	identifierstyle=\color{black},
+%	stringstyle=\color{blue},      
+%	numbers=right,                 
+%	numbersep=5pt,                  
+%	numberstyle=\tiny\color{black}, 
+%	rulecolor=\color{black},        
+%	showspaces=false,               
+%	showstringspaces=false,        
+%	showtabs=false,                
+%	stepnumber=1,                   
+%	title=\lstname,                 
+%}
+\usepackage[utf8]{inputenc}   % pacote para acentuação
+\usepackage{graphicx}  % pacote para importar figuras
+\usepackage{amsmath,latexsym,amssymb} %Pacotes matemáticos
+\usepackage[%hidelinks%, 
+            bookmarksopen=true,linktoc=none,colorlinks=true,
+            linkcolor=black,citecolor=black,filecolor=magenta,urlcolor=blue,
+            pdftitle={Projeto de cliente/servidor no padrão CoAP para embarcado com medição de temperatura},
+            pdfauthor={Mikael Marin Coletto},
+            pdfsubject={Trabalho de Conclusão de Curso},
+            pdfkeywords={Protocolo CoAP, Medidor de temperatura embarcado, Cliente embarcado CoAP, Servidor embarcado CoAP, Tradutor CoAP SOAP, Engenharia de Computação, UFSM, CoAP, Cliente CoAP, Servidor CoAP, ESP8266}
+            ]{hyperref} %hidelinks disponível no pacote hyperref a partir da versão 2011-02-05  6.82a
+%Nesse caso, hidelinks retira os retângulos em volta dos links das referências
+
+%Margens conforme MDT 7ª edição, arrumar diretamente no mdtufsm.cls para funcionar a opção twoside *PENDENTE*
+\usepackage[inner=30mm,outer=20mm,top=30mm,bottom=20mm]{geometry}
+\usepackage{pdfpages}
+\usepackage{siunitx}
+\usepackage{listings}
+\usepackage{subcaption}
+\captionsetup{compatibility=false}
+
+%\lstdefinelanguage{Java}{
+%	keywords={public, private, new, true, false, catch, void, return, null, for, switch, var, if, in, while, else, case, break},
+%	%keywords={struct, fn, let, box, mut, pub, impl, for, match, const},
+%	keywordstyle=\color[rgb]{0.4,0.4,0.65}\bfseries,
+%	ndkeywords={class, export, boolean, throw, implements, import, this,
+%		@Before, @Test, @After, Funcionalidade, Contexto, Dado, Quando, E, Entao, @Dado, @Quando, @E, @Entao, @Documented, @Retention, @Target, @Teste},
+	%ndkeywords={Add, Num},
+%	ndkeywordstyle=\color{purple}\bfseries,
+	%identifierstyle=\color{black},
+%	sensitive=true,
+%	comment=[l]{//},
+%	morecomment=[s]{/*}{*/},
+%	commentstyle=\color{purple}\ttfamily,
+%	stringstyle=\color[rgb]{0.0,0.4,0.65}\ttfamily,
+	%morestring=[b]',
+%	morestring=[b]"
+%}
+
+\lstset{language=C,
+	basicstyle=\ttfamily,
+	showspaces=true,
+	numbers=left,
+}
+
+\lstset{
+	basicstyle=\scriptsize\ttfamily,
+	tabsize=2,
+	frame=single,
+	breaklines=true,
+	breakatwhitespace=true,
+	xleftmargin=0cm,
+	xrightmargin=0cm,
+	literate=
+	{á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+	{Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
+	{à}{{\`a}}1 {è}{{\`e}}1 {ì}{{\`i}}1 {ò}{{\`o}}1 {ù}{{\`u}}1
+	{À}{{\`A}}1 {È}{{\'E}}1 {Ì}{{\`I}}1 {Ò}{{\`O}}1 {Ù}{{\`U}}1
+	{ä}{{\"a}}1 {ë}{{\"e}}1 {ï}{{\"i}}1 {ö}{{\"o}}1 {ü}{{\"u}}1
+	{Ä}{{\"A}}1 {Ë}{{\"E}}1 {Ï}{{\"I}}1 {Ö}{{\"O}}1 {Ü}{{\"U}}1
+	{â}{{\^a}}1 {ê}{{\^e}}1 {î}{{\^i}}1 {ô}{{\^o}}1 {û}{{\^u}}1
+	{Â}{{\^A}}1 {Ê}{{\^E}}1 {Î}{{\^I}}1 {Ô}{{\^O}}1 {Û}{{\^U}}1
+	{ã}{{\~a}}1 {Ã}{{\~A}}1 {õ}{{\~o}}1 {Õ}{{\~O}}1
+	{ç}{{\c c}}1 {Ç}{{\c C}}1,
+	texcl=true,
+	%numbers=left,
+	showstringspaces=false,
+	commentstyle=\normalfont
+}
+
+% For Computer Modern:
+%\def\Cpp{{C\nolinebreak[4]\hspace{-.05em}\raisebox{.4ex}{\tiny\bf ++}}}
+% For Linux Libertine G
+\def\Cpp{{C\nolinebreak[4]\raisebox{.20ex}{\small\bf++}}}
+
+%\newcommand{\todo}[1]{\textsf{\color{red}#1}}
+\newcommand{\todo}[1]{}
+\graphicspath{{./images/}}
+
+%==============================================================================
+% Se o pacote hyperref foi carregado a linha abaixo corrige um bug na hora
+% de montar o sumário da lista de figuras e tabelas
+% Se o pacote não foi carregado, comentar a linha %
+%==============================================================================
+\input{macros/bugcaption}
+
+
+%==============================================================================
+% Identificação do trabalho
+%==============================================================================
+\title{}
+
+\author{Coletto}{Mikael Marin}
+%Descomentar se for uma "autora"
+%\autoratrue
+
+\course{Curso de Engenharia da Computação}
+\altcourse{Curso Engenharia da Computação}
+
+\institute{Centro de Tecnologia}
+\degree{Engenheiro de Computação}
+
+% Número do TG (verificar na secretaria do curso)
+% Para mestrado deixar sem opção dentro do {}
+\trabalhoNumero{}
+
+%Orientador
+\advisor[Prof.]{M.}{Barriquello}{Carlos Henrique}
+%Se for uma ``orientadora'' descomentar a linha baixo
+%\orientadoratrue
+
+%Co orientador, comentar se não existir
+%\coadvisor[Prof.]{Drª.}{Pereira}{Maria Regina}
+%\coorientadoratrue %Se for uma ``Co-Orientadora''
+
+%Avaliadores (Banca)
+\committee[Dr.]{Baggio}{José Eduardo}{UFSM}
+\committee[Dr.]{Rutzig}{Mateus Beck}{UFSM}
+
+% a data deve ser a da defesa; se nao especificada, são gerados
+% mes e ano correntes
+\date{10}{Dezembro}{2015}
+
+%Palavras chave
+\keyword{CoAP} 
+\keyword{Cliente}
+\keyword{Servidor}
+
+%%=============================================================================
+%% Início do documento
+%%=============================================================================
+\begin{document}
+
+%%=============================================================================
+%% Capa e folha de rosto
+%%=============================================================================
+\maketitle
+
+%%=============================================================================
+%% Catalogação (obrigatório para mestrado) e Folha de aprovação
+%%=============================================================================
+%Somente obrigatório para dissertação, para TG, remover as linhas	77	%
+%Como a CIP vai ser impressa atrás da página de rosto, as margens inner e outer	
+%devem ser invertidas.
+\newgeometry{inner=20mm,outer=30mm,top=30mm,bottom=20mm}	
+\makeCIP{mikael.coletto.eng@gmail.com} %email do autor		
+\restoregeometry
+
+%Se for usar a catalogação gerada pelo gerador do site da biblioteca comentar as linhas
+%acima e utilizar o comando abaixo
+%\includeCIP{CIP.pdf}
+
+%folha de aprovação
+\makeapprove
+
+%%=============================================================================
+%% Dedicatória (opcional)
+%%=============================================================================
+\clearpage
+\begin{flushright}
+\mbox{}\vfill
+{\sffamily\itshape À UFSM ......}
+\end{flushright}
+
+%%=============================================================================
+%% Agradecimentos (opcional)
+%%=============================================================================
+\chapter*{Agradecimentos}
+\`A minha família e amigos, que me apoiaram nos momentos difíceis.
+
+Ao professor Carlos Henrique Barriquello, pela orientação, paciência e disponibilidade, sempre com sugestões e novas ideias para ajudar no desenvolvimento do projeto.
+
+\`A Luiza Alves Prates, pela paciência, pelas conversas e pela ajuda.
+
+\`A todos que me ajudaram nessa caminhada até hoje.
+
+\begin{figure}[!htb]
+	\begin{lstlisting}
+	@Test
+	public void testaFormularios() {
+	for (Class classe : getCarregaClasses()) {
+	Teste testeClasse = TestePropriedades.teste(classe);
+	if (testeClasse.fazerLogin()) {
+	LoginTeste.login(TestePropriedades.urlSistema, testeClasse.getSenha(), testeClasse.getLogin(), webDriver);
+	}
+	if (!testeClasse.getUrl().equals("")) {
+	webDriver.get(TestePropriedades.urlSistema + testeClasse.getUrl());
+	}
+	for(Method metodo: classe.getDeclaredMethods()) {
+	Teste teste = TestePropriedades.teste(metodo);
+	if (teste != null) {
+	executaTeste(teste, true);
+	}
+	}
+	executaTeste(testeClasse, false);
+	System.out.println("Formulário da classe " + classe.getName() + " testado!");
+	}
+	}
+	\end{lstlisting}
+	\caption{Classe genérica de teste desenvolvida}
+	\label{code:TestaFormularios.java}
+\end{figure}
+
+
+%%=============================================================================
+%% Epígrafe (opcional)
+%%=============================================================================
+\clearpage
+\begin{flushright}
+\mbox{}\vfill
+{\sffamily\itshape
+``Frase da epígrafe'' \\ }
+--- \textsc{Autor da frase}
+\end{flushright}
+
+
+%%=============================================================================
+%% Resumo
+%%=============================================================================
+\begin{abstract}
+Este é o resumo do trabalho ... Este é o resumo do trabalho ...
+Este é o resumo do trabalho ... Este é o resumo do trabalho ...
+Este é o resumo do trabalho ... Este é o resumo do trabalho ...
+Este é o resumo do trabalho ... Este é o resumo do trabalho ...
+Este é o resumo do trabalho ... Este é o resumo do trabalho ...
+Este é o resumo do trabalho ... Este é o resumo do trabalho ...
+\end{abstract}
+
+%%=============================================================================
+%% Abstract
+%%=============================================================================
+% resumo na outra língua
+% como parametros devem ser passados o titulo, o nome do curso,
+% as palavras-chave na outra língua, separadas por vírgulas, o mês em inglês
+%o a sigla do dia em inglês: st, nd, th ...
+\begin{englishabstract}
+{Dissertation Title}
+{Post-Graduate Program in Informatics}
+{Keywords1. Keyword2}
+{March}
+{st}
+Abstract ... Abstract ...Abstract ...Abstract ...Abstract ...Abstract ...Abstract ...
+Abstract ...Abstract ...Abstract ...Abstract ...Abstract ...Abstract ...Abstract ...
+Abstract ...Abstract ...Abstract ...Abstract ...Abstract ...Abstract ...Abstract ...
+Abstract ...Abstract ...Abstract ...Abstract ...Abstract ...Abstract ...Abstract ...
+\end{englishabstract}
+
+%% Lista de Ilustrações (opc)
+%% Lista de Símbolos (opc)
+%% Lista de Anexos e Apêndices (opc)
+
+%%=============================================================================
+%% Lista de figuras (comentar se não houver)
+%%=============================================================================
+%\listoffigures
+
+%%=============================================================================
+%% Lista de tabelas (comentar se não houver)
+%%=============================================================================
+\listoftables
+
+%%=============================================================================
+%% Lista de Apêndices (comentar se não houver)
+%%=============================================================================
+\listofappendix
+
+%%=============================================================================
+%% Lista de Anexos (comentar se não houver)
+%%=============================================================================
+\listofannex
+
+%%=============================================================================
+%% Lista de abreviaturas e siglas
+%%=============================================================================
+ %o parametro deve ser a abreviatura mais longa
+\begin{listofabbrv}{UbiComp}
+   \item [BNF] \textit{Backus-Naur Form}
+   \item [UbiComp] Computação Ubíqua
+\end{listofabbrv}
+
+
+%%=============================================================================
+%% Lista de simbolos (opcional)
+%%=============================================================================
+%Simbolos devem aparecer conforme a ordem em que aparecem no texto
+% o parametro deve ser o símbolo mais longo
+\begin{listofsymbols}{teste}
+  \item [$\varnothing$] vazio
+  \item [$\Gamma$]  Gama
+  \item [$\forall$] Para todo
+\end{listofsymbols}
+
+%%=============================================================================
+%% Sumário
+%%=============================================================================
+\tableofcontents
+
+
+%%=============================================================================
+%% Início da dissertação
+%%=============================================================================
+\setlength{\baselineskip}{1.5\baselineskip}
+
+%Adiciona cada capitulo
+\include{capitulos/introducao}
+\include{capitulos/revisao_teorica}
+\include{capitulos/desenvolvimento}
+\include{capitulos/conclusao}
+
+\setlength{\baselineskip}{\baselineskip}
+
+%%=============================================================================
+%% Referências
+%%=============================================================================
+\bibliographystyle{abnt}
+\bibliography{referencias/referencias}
+
+
+
+%IMPORTANTE: Se precisar usar alguma seção ou subseção dentro dos apêndices ou
+%anexos, utilizar o comando \tocless para não adicionar no Sumário
+%Exemplos: 
+% \tocless\section{Histórico}
+%%=============================================================================
+%% Apêndices
+%%=============================================================================
+\appendix
+\include{capitulos/apendicea}
+\include{capitulos/apendiceb}
+
+%%=============================================================================
+%% Anexos
+%%=============================================================================
+\annex
+\include{capitulos/anexoa}
+
+\end{document}
