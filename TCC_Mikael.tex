@@ -24,38 +24,15 @@
 \definecolor{lgrey}{rgb}{0.9,0.9,0.9}
 \definecolor{gray}{rgb}{0.4,0.4,0.4}
 \definecolor{darkblue}{rgb}{0.0,0.0,0.6}
-%\lstdefinelanguage{cpp}{
-%	backgroundcolor=\color{lgrey},  
-%	basicstyle=\footnotesize \ttfamily \color{black} \bfseries,   
-%	breakatwhitespace=false,       
-%	breaklines=true,               
-%	captionpos=b,                   
-%	commentstyle=\color{dkgreen},   
-%	deletekeywords={...},          
-%	escapeinside={\%*}{*)},                  
-%	frame=single,                  
-%	language=C++,                
-%	keywordstyle=\color{purple},  
-%	morekeywords={BRIEFDescriptorConfig,string,TiXmlNode,DetectorDescriptorConfigContainer,istringstream,cerr,exit}, 
-%	identifierstyle=\color{black},
-%	stringstyle=\color{blue},      
-%	numbers=right,                 
-%	numbersep=5pt,                  
-%	numberstyle=\tiny\color{black}, 
-%	rulecolor=\color{black},        
-%	showspaces=false,               
-%	showstringspaces=false,        
-%	showtabs=false,                
-%	stepnumber=1,                   
-%	title=\lstname,                 
-%}
+
+\usepackage[brazilian]{babel}
 \usepackage[utf8]{inputenc}   % pacote para acentuação
 \usepackage{graphicx}  % pacote para importar figuras
 \usepackage{amsmath,latexsym,amssymb} %Pacotes matemáticos
-\usepackage[%hidelinks%, 
+\usepackage[hidelinks, 
             bookmarksopen=true,linktoc=none,colorlinks=true,
             linkcolor=black,citecolor=black,filecolor=magenta,urlcolor=blue,
-            pdftitle={Projeto de cliente/servidor no padrão CoAP para embarcado com medição de temperatura},
+            pdftitle={Projeto de cliente/servidor no padr\~ao CoAP para embarcado com medi\c{c}\~ao de temperatura},
             pdfauthor={Mikael Marin Coletto},
             pdfsubject={Trabalho de Conclusão de Curso},
             pdfkeywords={Protocolo CoAP, Medidor de temperatura embarcado, Cliente embarcado CoAP, Servidor embarcado CoAP, Tradutor CoAP SOAP, Engenharia de Computação, UFSM, CoAP, Cliente CoAP, Servidor CoAP, ESP8266}
@@ -70,27 +47,26 @@
 \usepackage{subcaption}
 \captionsetup{compatibility=false}
 
-%\lstdefinelanguage{Java}{
-%	keywords={public, private, new, true, false, catch, void, return, null, for, switch, var, if, in, while, else, case, break},
-%	%keywords={struct, fn, let, box, mut, pub, impl, for, match, const},
-%	keywordstyle=\color[rgb]{0.4,0.4,0.65}\bfseries,
-%	ndkeywords={class, export, boolean, throw, implements, import, this,
-%		@Before, @Test, @After, Funcionalidade, Contexto, Dado, Quando, E, Entao, @Dado, @Quando, @E, @Entao, @Documented, @Retention, @Target, @Teste},
-	%ndkeywords={Add, Num},
-%	ndkeywordstyle=\color{purple}\bfseries,
-	%identifierstyle=\color{black},
-%	sensitive=true,
-%	comment=[l]{//},
-%	morecomment=[s]{/*}{*/},
-%	commentstyle=\color{purple}\ttfamily,
-%	stringstyle=\color[rgb]{0.0,0.4,0.65}\ttfamily,
-	%morestring=[b]',
-%	morestring=[b]"
-%}
+\lstdefinelanguage{C}{
+	keywords={void, return, null, for, switch, printf, if, while, else, case, break},
+	keywords={struct, fn, let, box, mut, pub, impl, for, match, const},
+	keywordstyle=\color[rgb]{0.4,0.4,0.65}\bfseries,
+	ndkeywords={identifica\_arg, @identifica\_arg, rand, @veri_option ,veri_option},
+	ndkeywords={Add, Num},
+	ndkeywordstyle=\color{purple}\bfseries,
+	identifierstyle=\color{black},
+	sensitive=true,
+	comment=[l]{//},
+	morecomment=[s]{/*}{*/},
+	commentstyle=\color{purple}\ttfamily,
+	stringstyle=\color[rgb]{0.0,0.4,0.65}\ttfamily,
+	morestring=[b]',
+	morestring=[b]"
+}
 
 \lstset{language=C,
 	basicstyle=\ttfamily,
-	showspaces=true,
+	showspaces=false,
 	numbers=left,
 }
 
@@ -139,7 +115,7 @@
 %==============================================================================
 % Identificação do trabalho
 %==============================================================================
-\title{}
+\title{Projeto de cliente/servidor no padrão CoAP para embarcado com medição de temperatura}
 
 \author{Coletto}{Mikael Marin}
 %Descomentar se for uma "autora"
@@ -156,7 +132,7 @@
 \trabalhoNumero{}
 
 %Orientador
-\advisor[Prof.]{M.}{Barriquello}{Carlos Henrique}
+\advisor[Prof.]{Dr.}{Barriquello}{Carlos Henrique}
 %Se for uma ``orientadora'' descomentar a linha baixo
 %\orientadoratrue
 
@@ -207,50 +183,25 @@
 %%=============================================================================
 %% Dedicatória (opcional)
 %%=============================================================================
-\clearpage
-\begin{flushright}
-\mbox{}\vfill
-{\sffamily\itshape À UFSM ......}
-\end{flushright}
+%\clearpage
+%\begin{flushright}
+%\mbox{}\vfill
+%{\sffamily\itshape À UFSM ......}
+%\end{flushright}
 
 %%=============================================================================
 %% Agradecimentos (opcional)
 %%=============================================================================
 \chapter*{Agradecimentos}
+Aos meus pais, por me criarem, me educarem e me ajudarem a ser o que sou hoje. Serei sempre grato.
+
 \`A minha família e amigos, que me apoiaram nos momentos difíceis.
 
 Ao professor Carlos Henrique Barriquello, pela orientação, paciência e disponibilidade, sempre com sugestões e novas ideias para ajudar no desenvolvimento do projeto.
 
-\`A Luiza Alves Prates, pela paciência, pelas conversas e pela ajuda.
+\`A Luiza Alves Prates, pela paciência, pelas conversas e pela ajuda com a revisão.
 
 \`A todos que me ajudaram nessa caminhada até hoje.
-
-\begin{figure}[!htb]
-	\begin{lstlisting}
-	@Test
-	public void testaFormularios() {
-	for (Class classe : getCarregaClasses()) {
-	Teste testeClasse = TestePropriedades.teste(classe);
-	if (testeClasse.fazerLogin()) {
-	LoginTeste.login(TestePropriedades.urlSistema, testeClasse.getSenha(), testeClasse.getLogin(), webDriver);
-	}
-	if (!testeClasse.getUrl().equals("")) {
-	webDriver.get(TestePropriedades.urlSistema + testeClasse.getUrl());
-	}
-	for(Method metodo: classe.getDeclaredMethods()) {
-	Teste teste = TestePropriedades.teste(metodo);
-	if (teste != null) {
-	executaTeste(teste, true);
-	}
-	}
-	executaTeste(testeClasse, false);
-	System.out.println("Formulário da classe " + classe.getName() + " testado!");
-	}
-	}
-	\end{lstlisting}
-	\caption{Classe genérica de teste desenvolvida}
-	\label{code:TestaFormularios.java}
-\end{figure}
 
 
 %%=============================================================================
@@ -260,8 +211,8 @@ Ao professor Carlos Henrique Barriquello, pela orientação, paciência e dispon
 \begin{flushright}
 \mbox{}\vfill
 {\sffamily\itshape
-``Frase da epígrafe'' \\ }
---- \textsc{Autor da frase}
+``Sonhos determinam o que você quer. Ação determina o que você conquista.'' \\ }
+--- \textsc{Aldo Novak}
 \end{flushright}
 
 
@@ -269,12 +220,11 @@ Ao professor Carlos Henrique Barriquello, pela orientação, paciência e dispon
 %% Resumo
 %%=============================================================================
 \begin{abstract}
-Este é o resumo do trabalho ... Este é o resumo do trabalho ...
-Este é o resumo do trabalho ... Este é o resumo do trabalho ...
-Este é o resumo do trabalho ... Este é o resumo do trabalho ...
-Este é o resumo do trabalho ... Este é o resumo do trabalho ...
-Este é o resumo do trabalho ... Este é o resumo do trabalho ...
-Este é o resumo do trabalho ... Este é o resumo do trabalho ...
+Este projeto consiste no desenvolvimento de um cliente, cuja tarefa é enviar um dado a um servidor externo, e um servidor, cujo objetivo inicial era receber pedidos desse cliente. Para isso foi feita estudado o conceito de cliente e servidor, assim como os padrões estabelecidos.
+
+O padrão adotado é o CoAP e implementado na linguagem C. Porém, ele foi alterado para que servisse também à alteração de parâmetros do cliente embarcado.  Estes cliente e servidor devem ser embarcados em um hardware para uso de controle e monitoração de diversos ambientes.
+
+É demonstrado também o uso de dois métodos implementados, PUT e POST, no envio de dados. A seguir, apresenta-se a discussão sobre a questão de tempo de execução e de taxa de entrega de pacotes.
 \end{abstract}
 
 %%=============================================================================
@@ -287,13 +237,14 @@ Este é o resumo do trabalho ... Este é o resumo do trabalho ...
 \begin{englishabstract}
 {Dissertation Title}
 {Post-Graduate Program in Informatics}
-{Keywords1. Keyword2}
+{CoAP. Client. Server}
 {March}
 {st}
-Abstract ... Abstract ...Abstract ...Abstract ...Abstract ...Abstract ...Abstract ...
-Abstract ...Abstract ...Abstract ...Abstract ...Abstract ...Abstract ...Abstract ...
-Abstract ...Abstract ...Abstract ...Abstract ...Abstract ...Abstract ...Abstract ...
-Abstract ...Abstract ...Abstract ...Abstract ...Abstract ...Abstract ...Abstract ...
+This project consists in developing a client, whose task is to send data to an external server, and a server. To do this, it was studied the concept of client and server, and the established protocols. The used protocol is CoAP, which is implemented in C.
+
+The initial goal for the server was to receive requests from this client, however, this was changed to work in to modificate the embedded system parameters too. These client and server must be embedded in a system to control and to monitor various environments.
+
+The use of two implemented methods is shown, PUT and POST, for sending data. In the following, it is discussed the execution time of client and the package delivery rate.
 \end{englishabstract}
 
 %% Lista de Ilustrações (opc)
@@ -318,16 +269,16 @@ Abstract ...Abstract ...Abstract ...Abstract ...Abstract ...Abstract ...Abstract
 %%=============================================================================
 %% Lista de Anexos (comentar se não houver)
 %%=============================================================================
-\listofannex
+%\listofannex
 
 %%=============================================================================
 %% Lista de abreviaturas e siglas
 %%=============================================================================
  %o parametro deve ser a abreviatura mais longa
-\begin{listofabbrv}{UbiComp}
-   \item [BNF] \textit{Backus-Naur Form}
-   \item [UbiComp] Computação Ubíqua
-\end{listofabbrv}
+%\begin{listofabbrv}{UbiComp}
+%   \item [ACK] \textit{Acknowledgement}
+%   \item [UbiComp] Computação Ubíqua
+%\end{listofabbrv}
 
 
 %%=============================================================================
@@ -335,11 +286,11 @@ Abstract ...Abstract ...Abstract ...Abstract ...Abstract ...Abstract ...Abstract
 %%=============================================================================
 %Simbolos devem aparecer conforme a ordem em que aparecem no texto
 % o parametro deve ser o símbolo mais longo
-\begin{listofsymbols}{teste}
-  \item [$\varnothing$] vazio
-  \item [$\Gamma$]  Gama
-  \item [$\forall$] Para todo
-\end{listofsymbols}
+%\begin{listofsymbols}{teste}
+%  \item [$\varnothing$] vazio
+%  \item [$\Gamma$]  Gama
+%  \item [$\forall$] Para todo
+%\end{listofsymbols}
 
 %%=============================================================================
 %% Sumário
@@ -356,6 +307,7 @@ Abstract ...Abstract ...Abstract ...Abstract ...Abstract ...Abstract ...Abstract
 \include{capitulos/introducao}
 \include{capitulos/revisao_teorica}
 \include{capitulos/desenvolvimento}
+\include{capitulos/resultados}
 \include{capitulos/conclusao}
 
 \setlength{\baselineskip}{\baselineskip}
@@ -368,7 +320,7 @@ Abstract ...Abstract ...Abstract ...Abstract ...Abstract ...Abstract ...Abstract
 
 
 
-%IMPORTANTE: Se precisar usar alguma seção ou subseção dentro dos apêndices ou
+%importante: Se precisar usar alguma seção ou subseção dentro dos apêndices ou
 %anexos, utilizar o comando \tocless para não adicionar no Sumário
 %Exemplos: 
 % \tocless\section{Histórico}
@@ -382,7 +334,7 @@ Abstract ...Abstract ...Abstract ...Abstract ...Abstract ...Abstract ...Abstract
 %%=============================================================================
 %% Anexos
 %%=============================================================================
-\annex
-\include{capitulos/anexoa}
+%\annex
+%\include{capitulos/anexoa}
 
 \end{document}

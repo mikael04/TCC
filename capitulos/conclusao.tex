@@ -1,0 +1,9 @@
+\chapter{Conclusão}
+
+Sistemas embarcados para controle e monitoração de ambientes têm ganhado seu espaço, com seu baixo custo, alta eficiência e possível aumento na produtividade e rendimento da tarefa onde eles são empregados.
+
+Este trabalho teve a proposição do uso de um padrão novo, que é voltado para este tipo de situação, onde o hardware utilizado será o mais simples possível e a comunicação pode ter fatores que prejudiquem a entrega da mensagem, através de uma linguagem amplamente conhecida e que facilita a implementação neste tipo de sistema embarcado.
+
+Ao final, chegou-se a um cliente e servidor relativamente simples e passíveis de serem alterados ou utilizados da forma que estão em embarcados de hardware mais modestos. Os resultados serviram para mostrar que, conforme a aplicação e o caso de uso, será possível escolher entre o método que mais se adequará ao projeto, tentando balancear taxa de entrega e tempo de execução.
+
+Apesar de constar como objetivo inicial, não foi possível a implementação no hardware planejado. A principal razão para este problema foi uma alteração no funcionamento do sistema embarcado: inicialmente, ele havia sido planejado para enviar dados medidos, e, posteriormente, pensou-se em um método de alterar alguns parâmetros neste cliente. Tratando-se de uma aplicação que precisaria tanto receber parâmetros com comportamento de um servidor, quanto enviar parâmetros com comportamento de cliente, pensou-se em utilizar a biblioteca threads, porém, sistemas embarcados mais simples não possuem suporte para essa biblioteca, nem para outras bibliotecas similares.

@@ -1,0 +1,47 @@
+\begin{thebibliography}{\hspace{\parindent}}
+
+\bibitem[FIELDING~R. E~GETTYS(1999)FIELDING~R. E~GETTYS]{rfc2616_http1.1}
+  FIELDING~R. E~GETTYS, J. e. M. J. e. F. H. e. M. L. e. L. P. e. B.-L.~T\@.
+  \textbf{RFC2616 - Hypertext Transfer Protocol -- HTTP/1.1}. [S.l.:~s.n.],
+  1999.
+
+\bibitem[FIELDING(2000)FIELDING]{fielding_rest} FIELDING, R.~T\@.
+  \textbf{Architectural Styles and the Design of Network-based Software
+  Architectures}. 2000. Tese (Doutorado em Ci{\^e}ncia da Computa{\c{c}}{\~a}o)
+  --- Universidade de Califórnia, Irvine, Irvine, Califórnia.
+
+\bibitem[FREED~N. E~BORESTEIN(1996)FREED~N.
+  E~BORESTEIN]{rfc2045_freed_borestein_mime} FREED~N. E~BORESTEIN, N\@.
+  \textbf{RFC2045 - Multipurpose Internet Mail Extensions (MIME) Part One}:
+  format of internet message bodies. [S.l.:~s.n.], 1996.
+
+\bibitem[GOMES(2008)GOMES]{gomes_rest_url} GOMES, A.~F\@. Uma r\'apida
+  Introdu\c{c}{\~a}o ao REST. }, [S.l.], Outubro~2008.
+
+\bibitem[HIRATA(2002)HIRATA]{hirataprotocols} HIRATA, R\@. \textbf{Otimizando
+  Servidores Web de Alta Demanda}. 2002. Disserta{\c{c}}{\~a}o (Mestrado em
+  Ci{\^e}ncia da Computa{\c{c}}{\~a}o) --- UNICAMP, Campinas.
+
+\bibitem[MARTINS(2015)MARTINS]{coap_mqtt_artigo} MARTINS, I. R. e. J.~L\@.
+  Estudo dos protocolos de comunicação MQTT e CoAP para aplicações
+  Machine-to-Machine e internet das coisas. \textbf{Revista Técnica Fatec
+  Americana}, [S.l.], p.64--87, mar./set.~2015.
+
+\bibitem[RESNICK(2001)RESNICK]{rfc2822_resnick_int_message_format} RESNICK,
+  P\@. \textbf{RFC2822 - Internet Message Format}. [S.l.:~s.n.], 2001.
+
+\bibitem[RFC - LOCAWEB(2015)RFC - LOCAWEB]{rfclocaweb} RFC - Locaweb. Accessed:
+  2015-08-05, \url{http://wiki.locaweb.com/pt-br/RFC}.
+
+\bibitem[SHELBY(2012)SHELBY]{rfc6690_core_link_format} SHELBY, Z\@.
+  \textbf{RFC6690 - Constrained RESTful Environments (CoRE) Link Format}.
+  [S.l.:~s.n.], 2012.
+
+\bibitem[SHELBY~Z. E~HARTKE(2014)SHELBY~Z. E~HARTKE]{rfc7252_CoAP} SHELBY~Z.
+  E~HARTKE, K. e. B.~C\@. {RFC7252 - The Constrained Application Protocol
+  (CoAP)}, url = {https://tools.ietf.org/html/rfc7252},. }, [S.l.], Junho~2014.
+
+\bibitem[TANENBAUM(2003)TANENBAUM]{tanenbaumredes} TANENBAUM, A.~S\@.
+  \textbf{Redes de Computadores}. Quarta.ed. [S.l.]: Elsevier Brasil, 2003.
+
+\end{thebibliography}

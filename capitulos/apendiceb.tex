@@ -1,0 +1,535 @@
+
+\chapter{C\'odigos do Servidor}
+
+\tocless\section{main\_posix.c}
+
+\begin{lstlisting}
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <stdio.h>
+#include <stdbool.h>
+#include <strings.h>
+#include <inttypes.h>
+/*INET*/
+#include <arpa/inet.h>
+/*SLEEP - TEST*/
+#include <time.h>
+/*Palavras (sair) */
+#include <string.h>
+/*Close and fork*/
+#include <unistd.h>
+
+/*SIGNAL, KILL FORK*/
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <signal.h>
+
+#include <pthread.h>
+/*srand and rand*/
+#include <stdlib.h>
+
+/*libs */
+#include "coap.h"
+#include "cli_main.h"
+
+
+#define PORT_CLI 32015
+/*#define PORT_SERV 7891 /*EMBARCADO NÃO REENVIA, CLIENTE ENVIARÀ -> não usada*/
+#define TIME 0
+#define DEBUG_MAIN 1 /*Debug Geral/
+#define DEBUG_SAIR 1
+#define DEBUG_SEND_ANOTHER_SERV 0
+#define DEBUG_FORK 0
+#define DEBUG_TIME 0 /*DEBUG com tempo padrão (não obtido do endpoint)*/
+#define DEBUG_GET_TIME 1 /*DEBUG com tempo padrão (não obtido do endpoint)*/
+#define DEBUG_SERV 1
+#define CASA 1
+#define MEGA 0
+
+/*DEBUG
+#define TIME_CALL_CLI_SEC 0.0166667*60*6 /*0.0166667*60 = 1 segundo*/
+#define TIME_CALL_CLI_NSEC 0
+#define NUM_THREADS 1
+
+#define DEBUG_TIME_SEC 1
+#define DEBUG_TIME_NSEC 0
+
+#define PORCENTAGEM 100
+
+
+void *thr_func_cli (void *arg)
+{
+struct timespec *call_cli = (struct timespec *) arg;
+int clin = 0;
+while(clin<1)
+{
+nanosleep(call_cli, (struct timespec *) NULL);
+#if DEBUG_MAIN
+printf("Child 1 pid, Chamando %d vez\n", clin);
+printf("Get = %d\n", get_var_time());
+printf("call_cli.tempo = %d\n", (int) call_cli->tv_sec);
+#endif
+main_cli();
+clin++;
+}
+pthread_exit(NULL);
+}
+
+void *thr_func_serv_recv (void *arg)
+{
+	struct timespec *call_cli = (struct timespec *) arg;
+	/*SLEEP - TEST*/
+	#if TIME
+	struct timespec req = {0};
+	req.tv_sec = DEBUG_TIME_SEC;
+	req.tv_nsec = DEBUG_TIME_NSEC;
+	#endif
+	#if DEBUG_MAIN && DEBUG_TIME
+	*call_cli->tv_sec = TIME_CALL_CLI_SEC;
+	*call_cli->tv_nsec = TIME_CALL_CLI_NSEC;
+	#endif
+	srand (time(NULL)); /*RANDOM FUNCTION*/
+	int fd_client;
+	
+	/*Creating Bufs*/
+	uint8_t buf[4096];
+	uint8_t scratch_raw[4096];
+	coap_rw_buffer_t scratch_buf = {scratch_raw, sizeof(scratch_raw)};
+	
+	#ifdef IPV6
+	struct sockaddr_in6 servaddr;
+	#else /* IPV6 */
+	struct sockaddr_in servaddr;
+	#endif /* IPV6 */
+	
+	#ifdef IPV6
+	fd_client = socket(AF_INET6,SOCK_DGRAM,0);
+	#else /* IPV6 */
+	fd_client = socket(AF_INET,SOCK_DGRAM,0);
+	#endif /* IPV6 */
+	
+	bzero(&servaddr,sizeof(servaddr));
+	#ifdef IPV6
+	servaddr.sin6_family = AF_INET6;
+	servaddr.sin6_addr = in6addr_any;
+	servaddr.sin6_port = htons(PORT_CLI);
+	#else /* IPV6 */
+	servaddr.sin_family = AF_INET;
+	servaddr.sin_addr.s_addr = inet_addr("192.168.1.16");
+	servaddr.sin_port = htons(32015);
+	#endif /* IPV6 */
+	bind(fd_client,(struct sockaddr *)&servaddr, sizeof(servaddr));
+	
+	while(1)
+	{
+		int n, rc;
+		socklen_t len = sizeof(servaddr);
+		coap_packet_t pkt;
+		n = recvfrom(fd_client, buf, sizeof(buf), 0, (struct sockaddr *)&servaddr, &len);
+		#if DEBUG_MAIN
+		printf("Received this: ");
+		coap_dump(buf, n, true);
+		printf("\n");
+		#endif
+		
+#if DEBUG_MAIN && DEBUG_SAIR
+		if(0 == (strcmp((char*)buf, "sair\0")))
+		{
+			printf("Saindo do servidor\n");
+			close(fd_client);
+			return 0;            
+		}
+		else if (0 != (rc = coap_parse(&pkt, buf, n)))
+			printf("Bad packet rc=%d\n", rc);
+#else
+		
+		if (0 != (rc = coap_parse(&pkt, buf, n)))
+			printf("Bad packet rc=%d\n", rc);
+#endif
+		else
+		{
+		
+			coap_packet_t rsppkt;
+#if DEBUG_MAIN
+			coap_dumpPacket(&pkt);
+#endif
+			coap_handle_req(&scratch_buf, &pkt, &rsppkt);
+			size_t rsplen = sizeof(buf);
+			
+			if (0 != (rc = coap_build(buf, &rsplen, &rsppkt)))
+				printf("coap_build failed rc=%d\n", rc);
+			else
+			{
+#if DEBUG_MAIN
+				printf("Sending: ");
+				coap_dump(buf, rsplen, true);
+				printf("\n");
+#endif
+#if DEBUG_MAIN
+				coap_dumpPacket(&rsppkt);
+#endif
+#if TIME
+				nanosleep(&req, (struct timespec *) NULL);
+#endif
+#if DEBUG_TIME == 0
+				call_cli->tv_sec = get_var_time();
+				call_cli->tv_nsec = 0;
+#endif
+				if (rand()%100<PORCENTAGEM)
+				{
+					printf("\n\nSending\n\n");
+					sendto(fd_client, buf, rsplen, 0, (struct sockaddr *)&servaddr, sizeof(servaddr));
+				}
+				else
+				{
+					printf("\n\nNot sending, simulando erro de comunicação\n\n");
+				}                    
+			}
+		}
+	}
+	close(fd_client);    
+	pthread_exit(NULL);
+}
+
+int main(int argc, char **argv)
+{
+	
+	int i;
+	pthread_t thr[NUM_THREADS];
+	struct timespec call_cli = {0};
+	
+	endpoint_setup();
+	
+	call_cli.tv_sec = get_var_time();
+	call_cli.tv_nsec = 0;
+	
+	int rc;
+	
+	printf("thread iniciando cliente \n");
+	if ((rc = pthread_create(&thr[0], NULL, thr_func_cli, &call_cli)))
+	{
+		fprintf(stderr, "error: pthread_create, rc: %d\n", rc);
+		return EXIT_FAILURE;
+	}
+	printf("thread iniciando servidor \n");
+	if ((rc = pthread_create(&thr[1], NULL, thr_func_serv_recv, &call_cli)))
+	{
+		fprintf(stderr, "error: pthread_create, rc: %d\n", rc);
+		return EXIT_FAILURE;
+	}
+	
+	for (i = 0; i < NUM_THREADS; ++i)
+	{
+		pthread_join(thr[i], NULL);
+	}
+	
+	return 0;
+}
+\end{lstlisting}
+
+\tocless\section{endpoints.c}
+
+\begin{lstlisting}
+
+#include <stdbool.h>
+#include <string.h>
+#include <time.h>
+#include "coap.h"
+
+#include <stdlib.h>
+
+#define DEBUG_END 1
+#define TEMP_1_CHAR 0
+#define TEMP_STRING 1
+#define DEBUG_STRUCT_TIME 1
+
+static char light = '0';
+static char temperature[4] = "0";
+static char time_freq_string[4] = "15";
+var_cli variable = {0};
+
+const uint16_t rsplen = 1500;
+static char rsp[1500] = "";
+void build_rsp(void);
+
+#ifdef ARDUINO
+#include "Arduino.h"
+static int led = 6;
+void endpoint_setup(void)
+{                
+	pinMode(led, OUTPUT);     
+	build_rsp();
+}
+#else
+#include <stdio.h>
+void endpoint_setup(void)
+{
+	build_rsp();
+	variable = create_var_time ();
+}
+#endif
+
+
+/* Variável de tempo (usar no main-posix)*/
+void set_var_time (short int tempo)
+{
+	variable.tempo = tempo;
+}
+short int get_var_time ()
+{
+	return variable.tempo;
+}
+
+var_cli create_var_time ()
+{
+	var_cli variable;
+	variable.tempo = 5; /*Segundos, para testes*/
+	return variable;
+}
+
+static const coap_endpoint_path_t path_well_known_core = {2, {".well-known", "core"}};
+static int handle_get_well_known_core(coap_rw_buffer_t *scratch, const coap_packet_t *inpkt, coap_packet_t *outpkt, uint8_t id_hi, uint8_t id_lo)
+{
+	return coap_make_response(scratch, outpkt, (const uint8_t *)rsp, strlen(rsp), id_hi, id_lo, &inpkt->tok, COAP_RSPCODE_CONTENT, COAP_CONTENTTYPE_APPLICATION_LINKFORMAT);
+}
+
+static const coap_endpoint_path_t path_light = {1, {"light"}};
+static int handle_get_light(coap_rw_buffer_t *scratch, const coap_packet_t *inpkt, coap_packet_t *outpkt, uint8_t id_hi, uint8_t id_lo)
+{
+	return coap_make_response(scratch, outpkt, (const uint8_t *)&light, 1, id_hi, id_lo, &inpkt->tok, COAP_RSPCODE_CONTENT, COAP_CONTENTTYPE_TEXT_PLAIN);
+}
+
+static int handle_post_light(coap_rw_buffer_t *scratch, const coap_packet_t *inpkt, coap_packet_t *outpkt, uint8_t id_hi, uint8_t id_lo)
+{
+	return coap_make_response(scratch, outpkt, (const uint8_t *)&light, 1, id_hi, id_lo, &inpkt->tok, COAP_RSPCODE_CONTENT, COAP_CONTENTTYPE_TEXT_PLAIN);
+}
+
+/* Receber parâmetros, inicialmente serão:
+Tempo = 15m -> Para testes -> 2s
+*/
+
+static const coap_endpoint_path_t path_time_freq = {2, {"var", "time"}};
+static int handle_get_time_freq(coap_rw_buffer_t *scratch, const coap_packet_t *inpkt, coap_packet_t *outpkt, uint8_t id_hi, uint8_t id_lo)
+{
+#if DEBUG_END
+	printf("\nWell get time new method\n");
+	printf("Visualizando time_string");
+	printf("\nTime = %s\n", time_freq_string);
+#endif
+	return coap_make_response(scratch, outpkt, (const uint8_t *)&(time_freq_string), strlen(time_freq_string), id_hi, id_lo, &inpkt->tok, COAP_RSPCODE_CONTENT, COAP_CONTENTTYPE_TEXT_PLAIN);
+
+}
+
+static int handle_post_time_freq(coap_rw_buffer_t *scratch, const coap_packet_t *inpkt, coap_packet_t *outpkt, uint8_t id_hi, uint8_t id_lo)
+{
+	char *end;
+#if DEBUG_END
+	printf("\nWell post temperature new method?\n");
+#endif
+	if (inpkt -> payload.len == 0)
+	{
+		return coap_make_response(scratch, outpkt, NULL, 0, id_hi, id_lo, &inpkt->tok, COAP_RSPCODE_BAD_REQUEST, COAP_CONTENTTYPE_TEXT_PLAIN);
+	}
+	else
+	{
+		strncpy (time_freq_string, "00000", strlen(time_freq_string));
+		strncpy (time_freq_string, (char *)inpkt->payload.p, strlen(time_freq_string));
+#if DEBUG_END
+		printf(" payload.len = %d\n", inpkt -> payload.len);
+		strncpy (time_freq_string, "00000", strlen(time_freq_string));
+		strncpy (time_freq_string, (char *)inpkt->payload.p, strlen(time_freq_string));
+		printf("Time_fre_string = %s", time_freq_string);
+#endif
+#if DEBUG_END && DEBUG_STRUCT_TIME
+		printf("1)Time_freq = %d\n", get_var_time());
+#endif		
+		set_var_time(strtol ((char *)inpkt->payload.p, &end, 0));
+#if DEBUG_END && DEBUG_STRUCT_TIME
+		printf("2)Time_freq = %d\n", get_var_time());
+#endif
+	}
+	return coap_make_response(scratch, outpkt, (const uint8_t *)&(time_freq_string), inpkt->payload.len, id_hi, id_lo, &inpkt->tok, COAP_RSPCODE_CHANGED, COAP_CONTENTTYPE_TEXT_PLAIN);
+}
+
+
+static const coap_endpoint_path_t path_temperature = {2, {"var", "temperature"}};
+static int handle_get_temperature(coap_rw_buffer_t *scratch, const coap_packet_t *inpkt, coap_packet_t *outpkt, uint8_t id_hi, uint8_t id_lo)
+{
+#if DEBUG_END
+	printf("\nWell get temperature new method?\n");
+	printf("Visualizando temperature");
+	printf("\nTemperature = %s\nLight = %c\n", temperature, light);
+#endif
+	return coap_make_response(scratch, outpkt, (const uint8_t *)&(temperature), strlen(temperature), id_hi, id_lo, &inpkt->tok, COAP_RSPCODE_CONTENT, COAP_CONTENTTYPE_TEXT_PLAIN);
+
+}
+
+static int handle_post_temperature(coap_rw_buffer_t *scratch, const coap_packet_t *inpkt, coap_packet_t *outpkt, uint8_t id_hi, uint8_t id_lo)
+{
+	#if DEBUG_END
+	printf("\nWell post temperature new method?\n");
+	#endif
+	if (inpkt -> payload.len == 0)
+	{
+		return coap_make_response(scratch, outpkt, NULL, 0, id_hi, id_lo, &inpkt->tok, COAP_RSPCODE_BAD_REQUEST, COAP_CONTENTTYPE_TEXT_PLAIN);
+	}
+	else
+	{
+#if DEBUG_END
+		/*necessário temperature para devolver para pkt*/
+		printf(" payload.len = %d\n", inpkt -> payload.len);
+		printf("Temperature = %s\n", temperature);
+		strncpy (temperature, "00000", strlen(temperature));
+		printf("1)Temperature = %s\n lenght = %d\n", temperature, strlen(temperature));
+		strncpy (temperature, (char *)inpkt -> payload.p, inpkt -> payload.len);
+		printf("2)Temperature = %s\n lenght = %d\n", temperature, strlen(temperature));
+#endif
+		FILE * pFile;
+		time_t t = time(NULL);
+		struct tm tm = *localtime(&t);
+		char date[10];
+		snprintf(date,10, "%d",tm.tm_mday);
+		pFile = fopen (date,"a+");
+		#if TEMP_1_CHAR
+		if (inpkt -> payload.len > 5 || inpkt -> payload.len < 1)
+			return coap_make_response(scratch, outpkt, NULL, 0, id_hi, id_lo, &inpkt->tok, COAP_RSPCODE_BAD_REQUEST, COAP_CONTENTTYPE_TEXT_PLAIN);
+		else if (pFile!=NULL)
+		{
+			fprintf (pFile, "Temperature = ");
+			if (inpkt -> payload.len < 2)
+			{
+				fprintf (pFile, "%c", inpkt -> payload.p [0]);
+			}
+			else if (inpkt -> payload.len  < 3)
+			{
+				fprintf (pFile, "%c", inpkt -> payload.p [0]);
+				fprintf (pFile, "%c", inpkt -> payload.p [1]);
+			}
+			else if (inpkt -> payload.len  < 4)
+			{
+				fprintf (pFile, "%c", inpkt -> payload.p [0]);
+				fprintf (pFile, "%c", inpkt -> payload.p [1]);
+				fprintf (pFile, "%c", inpkt -> payload.p [2]);
+			}
+			else if (inpkt -> payload.len  < 5)
+			{
+				fprintf (pFile, "%c", inpkt -> payload.p [0]);
+				fprintf (pFile, "%c", inpkt -> payload.p [1]);
+				fprintf (pFile, "%c", inpkt -> payload.p [2]);
+				fprintf (pFile, "%c", inpkt -> payload.p [3]);
+			}
+		
+			fprintf (pFile, " C  \t|   Log - Data: %d / %d Hora: %d :%d : %d\n", tm.tm_mon, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
+			fclose (pFile);
+		}
+#endif
+#if TEMP_STRING
+		if(pFile!=NULL)
+		{
+	#if DEBUG_END
+			printf("payload = %s\n", inpkt->payload.p);
+	#endif
+			fprintf(pFile, "\n%s", (char *)inpkt->payload.p);
+			fclose(pFile);
+		}
+#endif
+		else
+		{
+			return coap_make_response(scratch, outpkt, NULL, 0, id_hi, id_lo, &inpkt->tok, COAP_RSPCODE_BAD_REQUEST, COAP_CONTENTTYPE_TEXT_PLAIN);
+		}
+	}
+	return coap_make_response(scratch, outpkt, (const uint8_t *)&temperature, inpkt->payload.len, id_hi, id_lo, &inpkt->tok, COAP_RSPCODE_CHANGED, COAP_CONTENTTYPE_TEXT_PLAIN);
+}
+
+
+static int handle_put_light(coap_rw_buffer_t *scratch, const coap_packet_t *inpkt, coap_packet_t *outpkt, uint8_t id_hi, uint8_t id_lo)
+{
+#if DEBUG_END	
+	printf("\nWell put light\n");
+#endif
+	if (inpkt->payload.len == 0)
+		return coap_make_response(scratch, outpkt, NULL, 0, id_hi, id_lo, &inpkt->tok, COAP_RSPCODE_BAD_REQUEST, COAP_CONTENTTYPE_TEXT_PLAIN);
+	if (inpkt->payload.p[0] == '1')
+	{
+		light = '1';
+#ifdef ARDUINO
+		digitalWrite(led, HIGH);
+#else
+		printf("ON\n");
+#endif
+		return coap_make_response(scratch, outpkt, (const uint8_t *)&light, 1, id_hi, id_lo, &inpkt->tok, COAP_RSPCODE_CHANGED, COAP_CONTENTTYPE_TEXT_PLAIN);
+	}
+	else
+	{
+		light = '0';
+#ifdef ARDUINO
+		digitalWrite(led, LOW);
+#else
+		printf("OFF\n");
+#endif
+		return coap_make_response(scratch, outpkt, (const uint8_t *)&light, 1, id_hi, id_lo, &inpkt->tok, COAP_RSPCODE_CHANGED, COAP_CONTENTTYPE_TEXT_PLAIN);
+	}
+}
+
+const coap_endpoint_t endpoints[] =
+{
+	{COAP_METHOD_GET, handle_get_well_known_core, &path_well_known_core, "ct=40"},
+	{COAP_METHOD_GET, handle_get_light, &path_light, "ct=0"},
+	{COAP_METHOD_GET, handle_get_temperature, &path_temperature, "ct=6"},    
+	{COAP_METHOD_GET, handle_get_time_freq, &path_time_freq, "ct=7"},
+	{COAP_METHOD_PUT, handle_put_light, &path_light, NULL},
+	{COAP_METHOD_POST, handle_post_temperature, &path_temperature, "ct=8"},
+	{COAP_METHOD_POST, handle_post_light, &path_light, "ct=4"}, 
+	{COAP_METHOD_POST, handle_post_time_freq, &path_time_freq, "ct=9"},
+	{(coap_method_t)0, NULL, NULL, NULL}
+};
+
+void build_rsp(void)
+{
+	uint16_t len = rsplen;
+	const coap_endpoint_t *ep = endpoints;
+	int i;
+	
+	len--; /* Null-terminated string*/
+	
+	while(NULL != ep->handler)
+	{
+		if (NULL == ep->core_attr)
+		{
+			ep++;
+			continue;
+		}
+		
+		if (0 < strlen(rsp))
+		{
+			strncat(rsp, ",", len);
+			len--;
+		}
+		
+		strncat(rsp, "<", len);
+		len--;
+		
+		for (i = 0; i < ep->path->count; i++)
+		{
+			strncat(rsp, "/", len);
+			len--;
+			
+			strncat(rsp, ep->path->elems[i], len);
+			len -= strlen(ep->path->elems[i]);
+		}
+		
+		strncat(rsp, ">;", len);
+		len -= 2;
+		
+		strncat(rsp, ep->core_attr, len);
+		len -= strlen(ep->core_attr);
+		
+		ep++;
+	}
+}
+
+
+
+
+\end{lstlisting}
+

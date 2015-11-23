@@ -1,0 +1,32 @@
+\chapter{Introdução}
+\label{chap:Introducao}
+
+	Os sist@Memas de automação têm se desenvolvido nas últimas décadas, tornando-se mais baratos, eficazes e completos. Hoje podemos monitorar múltiplos ambientes sem mesmo estarmos presentes. Todas as áreas têm se beneficiado com a evolução dessa tecnologia, desde a área agrícola, aumentando seu potencial de produção, quanto a área da medicina, fornecendo cada vez mais dados para serem analisados pelos médicos, na cura de doenças e na pesquisa de novos medicamentos, entre outras. E a tendência é que, cada vez mais, utilizemos esses sistemas em nossas vidas, para nos trazerem conforto, segurança e praticidade nas nossas tarefas.
+	
+	Sistemas embarcados têm se adaptado a diversas tarefas, e, através deles, conseguimos medir e controlar inúmeras variáveis com precisão, de um jeito que não julgávamos possível há alguns anos atrás. Mas todos esses dados têm que ser interpretados e armazenados para que possam ser examinados posteriormente. Essa quantidade inimaginável de dados precisa ser transmitida, recebida, compreendida e utilizada de forma eficaz. Nossas redes atuais de comunicação não preveem tamanha quantidade de dados trafegando a todo o instante, podendo, assim, sobrecarregar as redes já existentes. Além disso, temos o problema de armazenamento de dados: quanto maior a quantidade de sensores, mais dados serão gerados e arquivados para uso. Além disso, precisamos de protocolos de comunicação capazes de lidar com essa quantidade de dados, e softwares especializados em receber, interpretar e armazenar esse tipo de informação.
+	
+	A "Internet das Coisas", do termo \textit{Internet of Things} (IoT) (termo cunhado pelo britânico Kevin Ashton), pretende controlar e monitorar o ambiente ao nosso redor de uma forma que nunca imaginamos antes, todos esses dados podem alterar o modo como vemos o mundo ao nosso redor, dando-nos mais controle sobre o que acontece. Ela pode ser empregada, para nos dar informações importantes sobre consumo de energia, controle ambiental de gases emitidos na atmosfera por indústrias, controle da qualidade da água, controle de tráfego veicular, monitoramento de temperatura, pressão, umidade do ar, entre muitas outras funções. Novos padrões vêm surgindo o tempo todo, e escolher o mais adequado tem se tornado cada vez mais difícil. Precisamos nos preocupar com a utilização da rede de comunicação, a segurança dos dados que serão transmitidos, a confiabilidade do padrão, a forma como os dados serão transmitidos e recebidos, as capacidades técnicas dos sistemas que utilizarão esse padrão, entre outras variáveis. Para sistemas embarcados de comunicação M2M, geralmente olhamos para padrões que exigem menos do hardware e que são amplamente usados, facilitando, assim, a comunicação com outros dispositivos.
+	
+	Além disso, também nos preocupando com a questão energética, sempre visando usar o mínimo de hardware necessário, aumentando assim a eficiência e diminuindo os custos que essa nova tecnologia trará. A quantidade e diversidade de sistemas embarcados têm crescido ano após ano, tornando essa escolha cada vez mais difícil e específica para cada caso, já que temos que unir desempenho, facilidade de desenvolvimento e o custo do sistema a ser usado. Para realizarmos a coleta de dados e utilização da informação, existem diversos softwares de controle e monitoração, que interpretam os dados e, a partir deles, geram novas ações, fechando o ciclo de um processo que está sempre se realimentando com informação e se adequando às novas características do ambiente. Um termômetro pode ser utilizado para enviar a temperatura de um ar condicionado, e, então, esse mesmo ar, ao receber a informação de que a temperatura está abaixo da desejada, desliga seus motores. Uma fábrica pode aumentar a vazão da água para o esgoto quando o tanque está ficando muito sobrecarregado. E muitos outros exemplos, com objetivo sempre de automatizar ou auxiliar em tarefas.
+
+\section{Objetivos}
+
+\subsection{Objetivo Geral}
+
+Esse projeto tem por objetivo a criação de um software obedecendo o padrão CoAP, que será colocada em um embarcado, para fazer a comunicação com um servidor externo.
+
+\subsection{Específicos}
+\begin{itemize}
+	\item Desenvolvimento de servidor, seguindo o padrão CoAP, que receberá os dados do embarcado;
+	\item Desenvolver cliente, seguindo o padrão CoAP, que será posto no sistema embarcado;
+	\item Desenvolver aplicação de medição de temperatura;
+	\item Implementar no hardware ESP8266 o projeto desenvolvido;
+\end{itemize}
+
+\section{Justificativa}
+
+O desenvolvimento de um sistema cliente/servidor, com um padrão relativamente novo, é vantajoso, visto que se baseia em regras novas e atuais, que são pensadas para o hardware que temos hoje. Esse padrão foi designado para sistemas embarcados, visando tirar o máximo possível do hardware com restrições e diminuir o uso da rede, podendo ser usado em ambientes com conexões mais precárias.
+
+Nesse sistema também será empregada uma linguagem de programação bem estabelecida, muito usada em projetos similares, sendo possível também a reutilização deste código ou de parte dele com pequenas adaptações, a depender do objetivo, e do hardware utilizado.
+
+
