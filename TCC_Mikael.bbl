@@ -1,0 +1,69 @@
+\begin{thebibliography}{\hspace{\parindent}}
+
+\bibitem[A(2015)CURVELHO]{esp8266_site} CURVELHO, A\@. \textbf{Módulo ESP8266}.  Dispo\'ivel em: <\url{http://www.embarcados.com.br/modulo-esp8266/}> Acessado em:
+20-09-2015.
+
+\bibitem[M(2015)COLETTO]{cliente_servidor_coap} COLETTO, M\@. \textbf{CoAP - Cliente\_Servidor}. Dispo\'ivel em: <\url{https://github.com/mikael04/client_server_coap}>.Acessado em: 22-11-2015.
+
+\bibitem[ECLIPSE(2015)ECLIPSE]{eclipse_ref} ECLIPSE. Dispo\'ivel em: <\url{https://eclipse.org/downloads/}>. Acessado em: 20-10-2015.
+
+\bibitem[ESPRESSIF(2015)ESPRESSIF]{espressif_ref} ESPRESSIF. Dispo\'ivel em: <\url{http://espressif.com/}>. Acessado em:
+15-10-2015.
+
+\bibitem[FIELDING et~al.(2009)FIELDING; GETTYS; MOGUL; FRYSTYK; MASINTER;
+LEACH; BERNERS-LEE]{rfc2616_http1.1} FIELDING, R. et~al\@. \textbf{RFC2616: Hypertext Transfer Protocol -- http/1.1}. 1999. Dispon{\'i}vel em: <\url{http://www.w3.org/Protocols/rfc2616/rfc2616.html}>. Acesso em: 20 set. 2015.
+
+\bibitem[FIELDING(2000)FIELDING]{fielding_rest} FIELDING, R.~T\@.
+\textbf{Architectural styles and the design of network-based software
+architectures}. 2000. Tese (Doutorado em Ci{\^e}ncia da Computa{\c{c}}{\~a}o)
+--- University of California, Irvine.
+
+\bibitem[FREED(1996)FREED]{rfc2045_freed_borestein_mime} FREED, N\@. \textbf{RFC2045: Multipurpose Internet Mail Extensions (MIME) part one: format of internet message bodies}. Dispon\'ivel em: <\url{https://www.ietf.org/rfc/rfc2045.txt}>. Acesso em: 20 set. 2015.
+
+\bibitem[GOMES(2008)GOMES]{gomes_rest_url} GOMES, A.~F\@. \textbf{Uma r\'apida
+Introdu\c{c}{\~a}o ao REST}. 2008. Dispon\'ivel em: <\url{http://www.infoq.com/br/articles/rest-introduction}>. Acesso em: 10 out. 2015.
+
+\bibitem[M(2015)M]{devkit_windows_ref} GRIGOREV, M\@. \textbf{ESP8266 Devkit for
+Windows}. Dispo\'ivel em: <\url{http://www.esp8266.com/viewtopic.php?t=820}>. Acessado em: 20-10-2015.
+
+\bibitem[HIRATA(2002)HIRATA]{hirataprotocols} HIRATA, R\@. \textbf{Otimizando
+Servidores Web de Alta Demanda}. 2002. Disserta{\c{c}}{\~a}o (Mestrado em
+Ci{\^e}ncia da Computa{\c{c}}{\~a}o) --- UNICAMP, Campinas.
+
+\bibitem[JAFFEY(2015)JAFFEY]{microcoap} JAFFEY, T\@. \textbf{micro\_coap}. Dispon\'ivel em: <\url{https://github.com/1248/microcoap}>
+Accessado em: 20 ago. 2015.
+
+\bibitem[LINUX MINT(2015)LINUX MINT]{linux_mint_ref} LINUX Mint. Dispo\'ivel em: <\url{http://linuxmint.com/}>. Acessado em:
+20-08-2015.
+
+\bibitem[MARTINS; ZEM(2015)MARTINS; ZEM]{coap_mqtt_artigo} MARTINS, I.~R.; ZEM,
+J.~L\@. \textbf{Estudos dos protocolos de comunica{\c{c}}{\~a}o MQTT e CoAP para aplica{\c{c}}{\~o}es machine-to-machine e internet das coisas}.
+[S.l.], v.3, n.1, p.64--87, 2015.
+
+\bibitem[PUTTY(2015)PUTTY]{putty_ref} PUTTY. Dispo\'ivel em: <\url{http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html}>. Acessado em: 20-10-2015.
+
+\bibitem[RESNICK et~al.(2001)RESNICK
+et~al.]{rfc2822_resnick_int_message_format} RESNICK, P. et~al\@. RFC2822:
+internet message format. \textbf{IETF (Standards Track) Request for
+Comments}, [S.l.], v.2822, 2001.
+
+\bibitem[RFC - LOCAWEB(2015)RFC - LOCAWEB]{rfclocaweb} \textbf{RFC - Locaweb}. Dispon\'ivel em: <\url{http://wiki.locaweb.com/pt-br/RFC}>. Accessado em: 20 ago. 2015..
+
+\bibitem[SHELBY(2014)SHELBY]{rfc6690_core_link_format} SHELBY, Z\@.
+\textbf{RFC6690: Constrained RESTful Environments (CoRE) Link Format}. 2012.
+
+\bibitem[SHELBY; HARTKE; BORMANN(2014)SHELBY; HARTKE; BORMANN]{rfc7252_CoAP}
+SHELBY, Z.; HARTKE, K.; BORMANN, C\@. \textbf{RFC7252: The Constrained Application
+Protocol (CoAP)}. Dispon\'ivel em: <\url{http://wiki.locaweb.com/pt-br/RFC}>. Accessado em: 20 ago. 2015.
+
+\bibitem[SOAP UI(2015)SOAP UI]{soap_ui_ref} SOAP UI. Dispo\'ivel em: <\url{http://www.soapui.org/}>. Acessado em: 20-09-2015.
+
+\bibitem[TANENBAUM(2003)TANENBAUM]{tanenbaumredes} TANENBAUM, A.~S\@.
+\textbf{Redes de Computadores}. Quarta.ed. [S.l.]: Elsevier Brasil, 2003.
+
+\bibitem[UBUNTU(2015)UBUNTU]{ubuntu_ref} UBUNTU. Dispo\'ivel em: <\url{http://www.ubuntu.com/download}>. Acessado em: 20-08-2015.
+
+\bibitem[VMWARE PLAYER(2015)VMWARE PLAYER]{vmware_player_ref} VMWARE Player. Dispo\'ivel em: <\url{http://www.vmware.com/br/products/player}>.
+Acessado em: 20-08-2015.
+
+\end{thebibliography}

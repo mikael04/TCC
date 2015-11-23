@@ -1,6 +1,6 @@
 %==============================================================================
 % abnt.bst
-% Estilo BibTeX de formata√ß√£o de refer√™ncias bibliogr√°ficas no padr√£o ABNT
+% Estilo BibTeX de formataÁ„o de referÍncias bibliogr·ficas no padr„o ABNT
 %
 % UFRGS TeX Users Group
 % Informatics Institute --- UFRGS
@@ -28,7 +28,7 @@
 %==============================================================================
 
 %==============================================================================
-% Defini√ß√£o dos campos das entradas
+% DefiniÁ„o dos campos das entradas
 %==============================================================================
 ENTRY
 { 
@@ -474,7 +474,7 @@ FUNCTION {format.entrytitle}
 }
 
 %==============================================================================
-% Converte a edicao literal ("First", "Second", etc., que √© o padr√£o indicado
+% Converte a edicao literal ("First", "Second", etc., que È o padr„o indicado
 % no manual do BibTeX) para o algarismo correspondente. Recebe na pilha o
 % string e devolve o numero.
 %==============================================================================
@@ -1286,7 +1286,7 @@ FUNCTION {get.labelstring.all}
 }
 
 %==============================================================================
-% Constru√ß√£o dos labels
+% ConstruÁ„o dos labels
 %==============================================================================
 FUNCTION {prepare.label.sorting}
 {
