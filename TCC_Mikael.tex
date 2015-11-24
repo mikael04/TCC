@@ -24,6 +24,7 @@
 \definecolor{lgrey}{rgb}{0.9,0.9,0.9}
 \definecolor{gray}{rgb}{0.4,0.4,0.4}
 \definecolor{darkblue}{rgb}{0.0,0.0,0.6}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
 
 \usepackage[brazilian]{babel}
 \usepackage[utf8]{inputenc}   % pacote para acentuação
@@ -47,28 +48,23 @@
 \usepackage{subcaption}
 \captionsetup{compatibility=false}
 
-\lstdefinelanguage{C}{
-	keywords={void, return, null, for, switch, printf, if, while, else, case, break},
-	keywords={struct, fn, let, box, mut, pub, impl, for, match, const},
-	keywordstyle=\color[rgb]{0.4,0.4,0.65}\bfseries,
-	ndkeywords={identifica\_arg, @identifica\_arg, rand, @veri_option ,veri_option},
-	ndkeywords={Add, Num},
-	ndkeywordstyle=\color{purple}\bfseries,
-	identifierstyle=\color{black},
-	sensitive=true,
-	comment=[l]{//},
-	morecomment=[s]{/*}{*/},
-	commentstyle=\color{purple}\ttfamily,
-	stringstyle=\color[rgb]{0.0,0.4,0.65}\ttfamily,
-	morestring=[b]',
-	morestring=[b]"
-}
+%\lstdefinelanguage{C}{
+%	keywords={void, return, null, for, switch, printf, if, while, else, case, break},
+%	keywords={struct, fn, let, box, mut, pub, impl, for, match, const},
+%	keywordstyle=\color[rgb]{0.4,0.4,0.65}\bfseries,
+%	ndkeywords={identifica\_arg, @identifica\_arg, rand, @veri_option ,veri_option},
+%	ndkeywords={Add, Num},
+%	ndkeywordstyle=\color{purple}\bfseries,
+%	identifierstyle=\color{black},
+%	sensitive=true,
+%	comment=[l]{//},
+%	morecomment=[s]{/*}{*/},
+%	commentstyle=\color{purple}\ttfamily,
+%	stringstyle=\color[rgb]{0.0,0.4,0.65}\ttfamily,
+%	morestring=[b]',
+%	morestring=[b]"
+%}
 
-\lstset{language=C,
-	basicstyle=\ttfamily,
-	showspaces=false,
-	numbers=left,
-}
 
 \lstset{
 	basicstyle=\scriptsize\ttfamily,
@@ -88,10 +84,20 @@
 	{â}{{\^a}}1 {ê}{{\^e}}1 {î}{{\^i}}1 {ô}{{\^o}}1 {û}{{\^u}}1
 	{Â}{{\^A}}1 {Ê}{{\^E}}1 {Î}{{\^I}}1 {Ô}{{\^O}}1 {Û}{{\^U}}1
 	{ã}{{\~a}}1 {Ã}{{\~A}}1 {õ}{{\~o}}1 {Õ}{{\~O}}1
-	{ç}{{\c c}}1 {Ç}{{\c C}}1,
+	{ç}{{\c c}}1 {Ç}{{\c C}}1 {_}{{\_}}1,
 	texcl=true,
 	%numbers=left,
 	showstringspaces=false,
+	backgroundcolor=\color{white},   % choose the background color
+	basicstyle=\footnotesize,        % size of fonts used for the code
+	breaklines=true,                 % automatic line breaking only at whitespace
+	captionpos=b,                    % sets the caption-position to bottom
+	commentstyle=\color{green},    % comment style
+	escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+	keywordstyle=\color{blue},       % keyword style
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{red},     % string literal style
+	basicstyle=\footnotesize,
 	commentstyle=\normalfont
 }
 

@@ -43,7 +43,7 @@ O cliente foi desenvolvido em C, visando a aumentar a possibilidade de implanta�
 Como visto, utilizar-se-á o protocolo UDP para transporte, então, a conexão será feita, como demonstrada abaixo:
 
 \begin{figure}[!htb]
-	\begin{lstlisting}
+	\begin{lstlisting} [language=C++]
 	//CONEXAO
 	int fd;
 	
@@ -62,15 +62,15 @@ Como visto, utilizar-se-á o protocolo UDP para transporte, então, a conexão s
 Ao ligar o socket à porta e ao endereço do servidor, via UDP, o envio da mensagem é feito da seguinte forma
 
 \begin{figure}[!htb]
-	\begin{lstlisting}
+	\begin{lstlisting} [language=C++]
 	if (rand()%100<PORCENTAGEM)
 	{
-	printf("\n\nEnviando\n\n");
-	sendto(fd, buf_out, rsplen, 0, (struct sockaddr *) &cliaddr, sizeof(cliaddr));
+		printf("\n\nEnviando\n\n");
+		sendto(fd, buf_out, rsplen, 0, (struct sockaddr *) &cliaddr, sizeof(cliaddr));
 	}
 	else
 	{
-	printf("\n\nNão enviando, simulando erro de comunicação\n\n");
+		printf("\n\nNão enviando, simulando erro de comunicação\n\n");
 	}    
 	\end{lstlisting}
 	\caption{Simulação de erro de conexão}
@@ -87,7 +87,7 @@ Foi usada a função \texttt{cria\_pkt }, e essa, por sua vez, chama a função 
 Foram empregadas também as funções \texttt{srand, rand()} para gerar aleatoriamente valores para o \textit{id} e para o \textit{token}, gerado de forma similar à utilizada para criar o \textit{id}, porém não foi transposta para o trecho abaixo.
 
 \begin{figure}[!htb]
-	\begin{lstlisting}
+	\begin{lstlisting} [language=C++]
 	void monta_header_token (coap_packet_t *pkt, uint8_t *token)
 	{
 		pkt->hdr.ver = 	 0x01; // versão 01;
@@ -120,7 +120,7 @@ A função utilizada para este fim, de alterar a mensagem pré-pronta deixando-a
 Aqui será utilizada parte da função \texttt{identifica\_arg} \ref{code:identifica_arg} para explicar como foi feita a identificação dos argumentos.
 
 \begin{figure}[!htb]
-	\begin{lstlisting}
+	\begin{lstlisting} [language=C++]
 	void identifica_arg (coap_packet_t *pkt, int argc, char **argv, char *buf_aux_opt_c, short int *buf_aux_opt_n)
 	{
 		...
@@ -181,7 +181,7 @@ Estas três funções \texttt{add\_token}, \texttt{add\_option} e \texttt{add\_p
 
 A mensagem é montada no pacote (\texttt{\&pkt}) e enviada através do buffer de saída (\texttt{buf\_out}). Essa tarefa é feita pela função \texttt{monta\_pkt}.
 \begin{figure}[!htb]
-	\begin{lstlisting}
+	\begin{lstlisting} [language=C++]
 	void monta_pkt (coap_packet_t *pkt, uint8_t *buf)
 	{
 		uint16_t running_delta = 0;
@@ -246,7 +246,7 @@ O tipo POST ainda realizará cinco tentativas de envio da mensagem, em caso de n
 A função \texttt{separa\_string} \ref{code:separa_string} tem objetivo de separar todos os parâmetros de uma \textit{string} única. Foi utilizado a variável \texttt{string\_sep}, que é alocada dinamicamente, conforme a \textit{string} que está sendo passada.
 
 \begin{figure}[!htb]
-	\begin{lstlisting}
+	\begin{lstlisting} [language=C++]
 	void separa_string (char **string_sep, char *buf, short int n_str, short int len)
 	{
 		for (i=0; i<len; i++)
@@ -275,7 +275,7 @@ A função \texttt{separa\_string} \ref{code:separa_string} tem objetivo de sepa
 Esta função foi pensada para controlar o buffer, buscando uma posição vazia para armazenar a mensagem e escrevendo nesta posição do buffer. Ela também faz controle da capacidade do buffer, retornando uma mensagem de erro em caso de o buffer já estar cheio. Aqui poderia ser implementada outra forma de lidar com esse erro, a partir da reescritura sobre uma posição ocupada ou do descarte das mensagens para limpar o buffer após certo tempo. Um pequeno trecho da função é vista na figura \ref{code:buffer_msg}.
 
 \begin{figure}[!htb]
-	\begin{lstlisting}
+	\begin{lstlisting} [language=C++]
 	void buffer_msg (char *buf_out, char *buf_out_p, short int *cont_msg, short int *pos, char buf_str[][512])
 	{
 		int k, m, ult_esc = -1;
@@ -318,7 +318,7 @@ No caso de um POST, após a mensagem ser enviada, tem-se a espera pela resposta.
 Então, recebida a mensagem, foi utilizada a função \texttt{lida\_msg\_recebida} para lidar com a mensagem do servidor que chega ao cliente, que seria a mensagem de ACK. E caso ela não seja recebida, a mensagem enviada deve ser reenviada. Conforme a figura \ref{code:envio_post}. 
 
 \begin{figure}[!htb]
-	\begin{lstlisting}
+	\begin{lstlisting} [language=C++]
 	while (num_timeouts < NUM_TIMEOUT)
 	{
 		if (setsockopt(fd, SOL_SOCKET, SO_RCVTIMEO,&tv,sizeof(tv)) < 0) 
@@ -359,7 +359,7 @@ Essa função, \texttt{lida\_msg\_recebida} \ref{code:lida_msg_recebida} foi uti
 Ela faz isso, comparando inicialmente o \textit{header} das duas mensagens, à armazenada e à recebida, e, entãom passa a comparar o restante da mensagem, até o final das \textit{options}.
 
 \begin{figure}[!htb]
-	\begin{lstlisting}
+	\begin{lstlisting} [language=C++]
 	int lida_msg_recebida (char *buf_in, char buf_str[][512], short int *cont_msg, short int *pos, struct timespec *time_post, struct timespec *time_start, FILE *pFile)
 	{
 		for (i=0; i<8; i++)
@@ -428,7 +428,7 @@ O servidor, diferente do cliente, não foi feito do zero. Foi realizada algumas 
 As alterações na \textit{main} foram feitas para comportar o cliente como função do servidor. Essa tarefa foi feita utilizando a biblioteca \textit{pthreads}, podendo ser facilmente alterada para a função \textit{fork} caso necessário. Uma \textit{thread} ficará responsável pelo servidor, e outra \textit{thread} é encarregada do cliente. A função \texttt{rand} também foi utilizada no servidor, de maneira similar a do cliente, para, através do número aleatório gerado, enviar ou não a mensagem, simulando assim erro de pacotes. Nas figuras \ref{code:thread_serv_main_posix.c} e \ref{code:main_main_posic.c} é possível verificar alguns trechos da função \texttt{main\_posix.c}.
 
 \begin{figure}[!htb]
-	\begin{lstlisting}
+	\begin{lstlisting} [language=C++]
 	void *thr_func_serv_recv (void *arg)
 	{
 		fd_client = socket(AF_INET,SOCK_DGRAM,0);
@@ -468,7 +468,7 @@ As alterações na \textit{main} foram feitas para comportar o cliente como fun�
 
 
 \begin{figure}[!htb]
-	\begin{lstlisting}
+	\begin{lstlisting} [language=C++]
 	int main(int argc, char **argv)
 	{
 		endpoint_setup();
@@ -510,7 +510,7 @@ A implementação dessas funções pode ser vista nos anexos.
 Algumas funções adicionais foram utilizadas: como a função \texttt{set\_var\_time} para a \texttt{main\_posix} fazer alteração do tempo, quando receber um pedido de outro cliente; a função \texttt{get\_var\_time}, utilizada pelo próprio sistema, para chamar o cliente de acordo com esse tempo; a função \texttt{create\_var\_time}, utilizada para a criação inicial do tempo, setado por padrão no início do código fonte da função \texttt{endpoints.c}. E a própria função \texttt{endpoints\_setup}, que chama a função \texttt{create\_var\_time} para iniciar a função \texttt{endpoints}. Essas funções podem ser vistas na figura \ref{code:endpoints.c}.
 
 \begin{figure}[!htb]
-	\begin{lstlisting}
+	\begin{lstlisting} [language=C++]
 	void endpoint_setup(void)
 	{
 		build_rsp();
