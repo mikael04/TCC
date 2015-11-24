@@ -32,7 +32,6 @@ A partir do desenvolvimento de uma aplicação, que pode ser embarcada em um har
 	\label{fig:Diagrama_lin_emb}
 \end{figure}
 
-
 Ainda que demonstrados cliente e servidor juntos, este projeto foi pensado e desenvolvido para ser utilizado de forma separada também. A implementação de ambos os elementos será descrita individualmente, e, por fim, será descrito o funcionamento delas em conjunto. Em mais detalhes, todo o código pode ser visto em \cite{cliente_servidor_coap}.
 
 \section{Cliente CoAP}
@@ -40,7 +39,7 @@ O cliente foi desenvolvido em C, visando a aumentar a possibilidade de implanta�
 
 
 \subsection{Conexão}
-Como visto, utilizar-se-á o protocolo UDP para transporte, então, a conexão será feita, como demonstrada abaixo:
+Como visto, utilizar-se-á o protocolo UDP para transporte, então, a conexão será feita, como demonstrada na figura \ref{code:conexao_cliente}:
 
 \begin{figure}[!htb]
 	\begin{lstlisting} [language=C++]
@@ -59,7 +58,7 @@ Como visto, utilizar-se-á o protocolo UDP para transporte, então, a conexão s
 	\label{code:conexao_cliente}
 \end{figure}
 
-Ao ligar o socket à porta e ao endereço do servidor, via UDP, o envio da mensagem é feito da seguinte forma
+Ao ligar o socket à porta e ao endereço do servidor, via UDP, o envio da mensagem é feito da seguinte forma: 
 
 \begin{figure}[!htb]
 	\begin{lstlisting} [language=C++]
@@ -84,7 +83,7 @@ Foi utilizada a função \texttt{if(rand()\%100<PORCENTAGEM)} para simular a per
 
 Foi usada a função \texttt{cria\_pkt }, e essa, por sua vez, chama a função  \texttt{monta\_header\_token} \ref{code:monta_header_token}, para criação do \textit{header} e \textit{token} do pacote, que são pré-definidos, no caso de o \textit{token} utilizado ser gerado pelo programa e não pelo usuário. Um pequeno trecho dela é visto na figura logo abaixo.
 
-Foram empregadas também as funções \texttt{srand, rand()} para gerar aleatoriamente valores para o \textit{id} e para o \textit{token}, gerado de forma similar à utilizada para criar o \textit{id}, porém não foi transposta para o trecho abaixo.
+Foram empregadas também as funções \texttt{srand, rand()} para gerar aleatoriamente valores para o \textit{id} e para o \textit{token}, gerado de forma similar à utilizada para criar o \textit{id}, porém não foi transposta para o trecho da figura \ref{code:monta_header_token}.
 
 \begin{figure}[!htb]
 	\begin{lstlisting} [language=C++]
@@ -117,7 +116,7 @@ A função utilizada para este fim, de alterar a mensagem pré-pronta deixando-a
 
 \subsection{Verificação e interpretação dos argumentos}
 
-Aqui será utilizada parte da função \texttt{identifica\_arg} \ref{code:identifica_arg} para explicar como foi feita a identificação dos argumentos.
+Aqui será utilizada parte da função \texttt{identifica\_arg}, figura \ref{code:identifica_arg}, para explicar como foi feita a identificação dos argumentos.
 
 \begin{figure}[!htb]
 	\begin{lstlisting} [language=C++]
@@ -150,15 +149,8 @@ Aqui será utilizada parte da função \texttt{identifica\_arg} \ref{code:identi
 \hfill \break
 \hfill \break
 \hfill \break
-\hfill \break
-\hfill \break
-\hfill \break
-\hfill \break
-\hfill \break
-\hfill \break
-\hfill \break
 
-Como é possível ver na figura \ref{code:identifica_arg}, é feita uma verificação dos parâmetros, para averiguar se são argumentos válidos, com a função \texttt{veri\_option} e, caso sejam, sãoo adicionados ao pacote criado. A seguir, serão descritas, com mais detalhes, as funções \texttt{add\_token}, \texttt{add\_option} e \texttt{add\_payload}. 
+Como é possível ver na figura \ref{code:identifica_arg}, é feita uma verificação dos parâmetros, para averiguar se são argumentos válidos, com a função \texttt{veri\_option} e, caso sejam, são adicionados ao pacote criado. A seguir, serão descritas, com mais detalhes, as funções \texttt{add\_token}, \texttt{add\_option} e \texttt{add\_payload}. 
 
 \subsubsection{Funções de adicionar \textit{payload}, \textit{option}, \textit{token}}
 
@@ -228,13 +220,12 @@ A mensagem é montada no pacote (\texttt{\&pkt}) e enviada através do buffer de
 
 Ainda nela, é utilizada a função \texttt{tempo\_agora}, com objetivo de calcular o tempo no instante de execução. Através desse parâmetro, será calculado o desempenho do cliente. Abaixo será descrito, de forma simplificada, o funcionamento dessa função.
 
-\verb||
 
 \subsection{PUT}
 
 A partir deste momento, a mensagem já foi montada, copiada para buffer e enviada, então, o cliente já está pronto e executando sua tarefa. 
 
-Em caso de o tipo de mensagem ser PUT \ref{subsubsection:post}, o cliente já foi finalizado, necessitando apenas da função \texttt{separa\_string}, como discutido no tópico anterior Parâmetros \ref{subsection:parametros}, caso queira ser utilizada uma \textit{string} pré-definida para envio. O controle de tempo também é feito após o envio da mensagem e enviado para o arquivo de log.
+Em caso de o tipo de mensagem ser PUT, consultar \ref{subsubsection:post}, o cliente já foi finalizado, necessitando apenas da função \texttt{separa\_string}, como discutido no tópico anterior Parâmetros \ref{subsection:parametros}, caso queira ser utilizada uma \textit{string} pré-definida para envio. O controle de tempo também é feito após o envio da mensagem e enviado para o arquivo de log.
 
 \subsection{POST}
 
@@ -247,18 +238,15 @@ A função \texttt{separa\_string} \ref{code:separa_string} tem objetivo de sepa
 
 \begin{figure}[!htb]
 	\begin{lstlisting} [language=C++]
-	void separa_string (char **string_sep, char *buf, short int n_str, short int len)
-	{
+	void separa_string (char **string_sep, char *buf, short int n_str, short int len)	{
 		for (i=0; i<len; i++)
 		{
-			if (buf[i] == ' ')
-			{			
+			if (buf[i] == ' '){			
 				string_sep[count_w][j] = '\0';
 				count_w++;
 				j=0;
 			}
-			else
-			{
+			else{
 				string_sep[count_w][j] = buf[i];
 				j++;
 			}
@@ -268,7 +256,6 @@ A função \texttt{separa\_string} \ref{code:separa_string} tem objetivo de sepa
 	\caption{Pequeno trecho da função \texttt{separa\_string}}
 	\label{code:separa_string}
 \end{figure}
-
 
 \subsubsection{Buffer}
 
@@ -356,7 +343,7 @@ Então, recebida a mensagem, foi utilizada a função \texttt{lida\_msg\_recebid
 
 Essa função, \texttt{lida\_msg\_recebida} \ref{code:lida_msg_recebida} foi utilizada para comparar a mensagem recebida com a armazenada e para confirmar se é o ACK esperado. Caso a mensagem seja ACK, deve retornar 1, caso contrário, retornará 0.
 
-Ela faz isso, comparando inicialmente o \textit{header} das duas mensagens, à armazenada e à recebida, e, entãom passa a comparar o restante da mensagem, até o final das \textit{options}.
+Ela faz isso, comparando inicialmente o \textit{header} das duas mensagens, à armazenada e à recebida, e, então passa a comparar o restante da mensagem, até o final das \textit{options}.
 
 \begin{figure}[!htb]
 	\begin{lstlisting} [language=C++]
@@ -396,24 +383,21 @@ Ela faz isso, comparando inicialmente o \textit{header} das duas mensagens, à a
 \label{code:lida_msg_recebida}
 \end{figure}
 
-\hfill \break
-\hfill \break
-\hfill \break
-\hfill \break
-\hfill \break
-\hfill \break
-\hfill \break
-\hfill \break
-\hfill \break
-
 Algumas funções adicionais também foram utilizadas, descritas de forma resumida.
-As funções de \texttt{printf}, como, \texttt{printf\_header} ou \texttt{printf\_buffer}, têm função de imprimir o argumento que lhes é passado: são todas funções do tipo void que não fazem modificações no dado em si.
+As funções de \texttt{printf}, como, \texttt{printf\_header} ou \texttt{printf\_buffer}, têm função de imprimir o argumento que lhes é passado: são todas funções do sem retorno de valor (\textit{void}) que não fazem modificações no dado em si.
+
 A função \texttt{tempo\_agora} recebe uma \textit{string}, e atualiza essa \textit{string} com o tempo no instante em que a função é chamada; ela é utilizada para adicionar o tempo à mensagem que será enviada.
+
 A função \texttt{get\_time} recebe uma estrutura de tempo e a atualiza com o tempo no instante em que é chamada, sendo utilizada para calcular o tempo de execução do programa que foi salvo nos logs.
+
 A função \texttt{calc\_time\_sub} foi utilizada para calcular a diferença de tempo, que é dada em segundos, desde um determinado tempo até o atual.
 A função \texttt{corrige\_len} foi utilizada para corrigir o tamanho da mensagem: como a mensagem do servidor continha muitas sequências de 0, o cliente estava interpretando como se não fizesse parte da mensagem; essa função corrige o tamanho do buffer interpretado.
+
 As funções de verificação, como \texttt{veri\_token}, fazem uma validação dos caracteres recebidos. Por exemplo, um campo de número de opção deve conter apenas números, um campo de nome da opção, pode conter números e letras, e assim por diante.
-As funções de lidar com erros, por exemplo, \texttt{lida\_erro\_id}, foram separadas por função que atuam, ou seja, a do exemplo lida com erros na função \texttt{identifica\_arg}, gerando um código de erro que é definido antes da compilação, no código fonte do cliente.FAZER TABELA DE ERROS%
+
+As funções de lidar com erros, por exemplo, \texttt{lida\_erro\_id}, foram separadas por função que atuam, ou seja, a do exemplo lida com erros na função \texttt{identifica\_arg}, gerando um código de erro que é definido antes da compilação, no código fonte do cliente.
+
+O código completo se encontra anexado no apêndice \ref{code:cli_main.c}.
 
 E assim, o cliente foi finalizado e ficou apto a enviar mensagens do tipo POST e PUT. O tipo de mensagem deve ser selecionado antes da compilação, alterando o parâmetro definido POST e PUT no início do código do cliente.
 
@@ -509,7 +493,7 @@ A implementação dessas funções pode ser vista nos anexos.
 
 Algumas funções adicionais foram utilizadas: como a função \texttt{set\_var\_time} para a \texttt{main\_posix} fazer alteração do tempo, quando receber um pedido de outro cliente; a função \texttt{get\_var\_time}, utilizada pelo próprio sistema, para chamar o cliente de acordo com esse tempo; a função \texttt{create\_var\_time}, utilizada para a criação inicial do tempo, setado por padrão no início do código fonte da função \texttt{endpoints.c}. E a própria função \texttt{endpoints\_setup}, que chama a função \texttt{create\_var\_time} para iniciar a função \texttt{endpoints}. Essas funções podem ser vistas na figura \ref{code:endpoints.c}.
 
-\begin{figure}[!htb]
+\begin{figure}[t]
 	\begin{lstlisting} [language=C++]
 	void endpoint_setup(void)
 	{

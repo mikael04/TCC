@@ -14,7 +14,7 @@ Os RFCs são identificados por um número, sequencialmente a cada novo RFC publi
 
 \section{Modelo de referência OSI}
 
-Iniciaremos tratando do modelo de referência utilizado para padronizar a comunicação entre sistemas. Ele delimita as camadas, dando objetivos e abstraindo o funcionamento de cada uma, facilitando o desenvolvimento de novos protocolos para cada função Esse modelo foi proposto por Day;Zimmermann \cite{tanenbaumredes}.
+Iniciaremos tratando do modelo de referência utilizado para padronizar a comunicação entre sistemas. Ele delimita as camadas, dando objetivos e abstraindo o funcionamento de cada uma, facilitando o desenvolvimento de novos protocolos para cada função. Esse modelo foi proposto por Day;Zimmermann \cite{tanenbaumredes}.
 
 \subsection{Camada Física}
 
@@ -64,7 +64,7 @@ Existem dois protocolos definidos com essa função: TCP, que dá nome ao modelo
 
 É uma entrega de pacotes confiável, garantindo que o pacote chegue ao seu destinatário e também a sua integridade, sendo, portanto, definido como um protocolo orientado à conexão.
 
-Esse protocolo divide os dados que serão enviados em pacotes menores e padrões e encaminha cada um deles a camada inferior, a camada de inter redes. No receptor, o protocolo volta a montar o pacote recebido. Caso algum fragmento seja perdido entre o emissor e receptor, é solicitada a retransmissão do pacote perdido, e, por fim, é feita uma verificação de erros, para evitar que a mensagem seja corrompida durante a transmissão. Além disso, para que uma nova conexão seja estabelecida, o protocolo utiliza um algoritmo chamado \textit{three-way handshake}, que simplificadamente funciona em três passos: primeiro, o cliente envia um segmento inicial com uma \textit{flag} SYN e sinalizando o número da porta onde o processo servidor deve aguardar requisições, o servidor responde com um segmento contendo, também a \textit{flag} SYN e um número sequencial e retorna um ACK, o cliente reconhece o segmento enviado pelo servidor e então a comunicação em si pode ser feita. O protocolo também utiliza o método \textit{slow-start} para reconhecer a banda disponível entre servidor e cliente, o padrão TCP estabelece um tamanho inicial de pacote, e a cada segmento recebido, esse tamanho é dobrado, até o fim da conexão ou caso haja algum erro na entrega do pacote.
+Esse protocolo divide os dados que serão enviados em pacotes menores e de tamanho padrão, então encaminha cada um deles a camada inferior, a camada de inter redes. No receptor, o protocolo volta a montar o pacote recebido. Caso algum fragmento seja perdido entre o emissor e receptor, é solicitada a retransmissão do pacote perdido, e, por fim, é feita uma verificação de erros, para evitar que a mensagem seja corrompida durante a transmissão. Além disso, para que uma nova conexão seja estabelecida, o protocolo utiliza um algoritmo chamado \textit{three-way handshake}, que simplificadamente funciona em três passos: primeiro, o cliente envia um segmento inicial com uma \textit{flag} SYN e sinalizando o número da porta onde o processo servidor deve aguardar requisições, o servidor responde com um segmento contendo, também a \textit{flag} SYN e um número sequencial e retorna um ACK, o cliente reconhece o segmento enviado pelo servidor e então a comunicação em si pode ser feita. O protocolo também utiliza o método \textit{slow-start} para reconhecer a banda disponível entre servidor e cliente, o padrão TCP estabelece um tamanho inicial de pacote, e a cada segmento recebido, esse tamanho é dobrado, até o fim da conexão ou caso haja algum erro na entrega do pacote.
 
 \subsubsection{User Datagram Protocol - UDP}
 
@@ -74,7 +74,7 @@ Esse protocolo divide os dados que serão enviados em pacotes menores e padrões
 
 O modelo TCP/IP não contempla as camadas de sessão e apresentação. Devido à experiência com o modelo OSI, foi comprovado que elas eram pouco utilizadas na prática.
 
-A camada de aplicação se comunica com a de transporte através de portas, que são numeradas, e aplicações com o mesmo fim utilizam portas padrões, como por exemplo, o padrão STMP, utilizado para comunicação de e-mails, utilizada a porta 25. O protocolo HTTP \cite{rfc2616_http1.1}, utilizado para fazermos pedidos e acessar determinadas páginas na \textit{World Wide Web}, utiliza a porta 80; o protocolo FTP, utilizado para transmissão de arquivos, utiliza as portas 20 e 21. Essa padronização permite que a camada abaixo, a camada de transporte, identifique o tipo de conteúdo que está sendo transmitido.
+A camada de aplicação se comunica com a de transporte através de portas, que são numeradas, e aplicações com o mesmo fim utilizam portas padrões, como por exemplo, o padrão STMP, utilizado para comunicação de e-mails, utilizada por padrão inicialmente a porta 25 e atualmente a porta 587. O protocolo HTTP \cite{rfc2616_http1.1}, utilizado para fazermos pedidos e acessar determinadas páginas na \textit{World Wide Web}, utiliza por padrão a porta 80; o protocolo FTP, utilizado para transmissão de arquivos, utiliza por padrão as portas20 e 21. Essa padronização permite que a camada abaixo, a camada de transporte, identifique o tipo de conteúdo que está sendo transmitido.
 
 
 \subsection{Camada de \textit{host}/rede}
@@ -83,37 +83,8 @@ Essa camada não é bem definida, exceto pelo fato de que os \textit{hosts} prec
 
 \section{Hypertext Transfer Protocol - HTTP/1.1}
 É um protocolo de comunicação, com funcionamento na camada de aplicação, entre sistemas de informação, desenvolvido para permitir a transferência de dados entre redes de computadores. Utilizado principalmente na \textit{World Wide Web}.
-Ele pode ser usado de diversos modos, para comunicação entre agentes usuários e outros sistemas da Internet, utilizando seus métodos, cabeçalhos e códigos de erro para identificar o objetivo do request, e, em larga escala pela \textit{World Wide Web}, como simples transferência de hipermídia entre sistemas inteligentes.
+Ele pode ser usado de diversos modos, para comunicação entre agentes usuários e outros sistemas da Internet, utilizando seus métodos, cabeçalhos e códigos de erro para identificar o objetivo do pedido, e, em larga escala pela \textit{World Wide Web}, como simples transferência de hipermídia entre sistemas inteligentes.
 O funcionamento deste protocolo é baseado em requisições e respostas entre o cliente e o servidor de dados. Essa interação é feita através de solicitações ASCII, seguida por uma resposta seguindo o padrão proposto pela RFC2822 \cite{rfc2822_resnick_int_message_format} e similar ao protocolo MIME \cite{rfc2045_freed_borestein_mime}, um cabeçalho padrão e opcionalmente um corpo com o conteúdo. Todos os clientes e servidores devem utilizar esse protocolo para comunicação entre eles. Listaremos abaixo algumas das propriedades mais importantes deste protocolo.
-
-
-%\begin{figure}[!htb]
-%\begin{lstlisting}
-%@Test
-%public void testaFormularios() {
-%	for (Class classe : getCarregaClasses()) {
-%    		Teste testeClasse = TestePropriedades.teste(classe);
-%        if (testeClasse.fazerLogin()) {
-%            LoginTeste.login(TestePropriedades.urlSistema, %testeClasse.getSenha(), testeClasse.getLogin(), webDriver);
-%        }
-%        if (!testeClasse.getUrl().equals("")) {
-%            webDriver.get(TestePropriedades.urlSistema + testeClasse.getUrl());
-%        }
-%        for(Method metodo: classe.getDeclaredMethods()) {
-%            Teste teste = TestePropriedades.teste(metodo);
-%            if (teste != null) {
-%                executaTeste(teste, true);
-%            }
-%        }
-%        executaTeste(testeClasse, false);
-%        System.out.println("Formulário da classe " + classe.getName() + " %testado!");
-%	}
-%}
-%\end{lstlisting}
-%    \caption{Classe genérica de teste desenvolvida}
-%	\label{code:TestaFormularios.java}
-%\end{figure}
-
 
 
 \subsection{Conexões}
@@ -122,7 +93,7 @@ O HTTP utiliza o protocolo TCP na camada de transporte, nas versões anteriores,
 O método de conexões persistentes ainda permite que múltiplas páginas Web utilizem a mesma conexão, acelerando ainda mais a troca de mensagens com o cliente, já que não precisamos passar pelo processo de \textit{three-way handshaking} e \textit{slow-start} novamente. Então essa conexão só será fechada após um tempo de inatividade que é configurável \cite{hirataprotocols}.
 
 \subsection{Métodos}
-Uma solicitação segue um padrão e um cabeçalho, divididos em duas categorias. A linha de requisição, que contém o método, especificando o tipo da operação, a URL, definindo qual objeto requisitado pelo método e por último, a versão, que define qual versão do protocolo HTTP está sendo utilizado. Discutiremos um pouco mais sobre alguns dos métodos HTTP, chamados também de verbos, já que eles serão revistos posteriormente no desenvolvimento deste projeto\cite{18370}.
+Uma solicitação segue um padrão e um cabeçalho, divididos em duas categorias. A linha de requisição, que contém o método, especificando o tipo da operação, a URL, definindo qual objeto requisitado pelo método e por último, a versão, que define qual versão do protocolo HTTP está sendo utilizado \cite{tanenbaumredes}. Discutiremos um pouco mais sobre alguns dos métodos HTTP, chamados também de verbos, já que eles serão revistos posteriormente no desenvolvimento deste projeto.
 
 \subsubsection{GET}
 Solicita ao servidor uma página, usualmente um arquivo, codificado em MIME. É o método mais utilizado para navegação na Web.
@@ -149,11 +120,10 @@ Para cada solicitação, teremos uma resposta do servidor, essa resposta é comp
 \end{itemize}
 
 \subsection{Cabeçalho}
-Para cada solicitação, teremos uma resposta do servidor, essa resposta é composta por uma linha de status e opcionalmente informações adicionais. O código de status pode ter como resposta:
 É formado pelas opções e valores, eles podem variar conforme o tipo de mensagem, sendo um pedido do cliente ou resposta do servidor, além do método que está sendo utilizado.
 
 \subsubsection{User-Agent}
-O cliente informa, através desse campo, o sobre o seu navegador, sistema operacional e outras propriedades.
+O cliente informa, através desse campo, sobre o seu navegador, sistema operacional e outras propriedades.
 
 \subsubsection{Accept}
 Através dele o cliente informa ao servidor o que o cliente está disposto a aceitar, especificando os tipos MIME que são aceitos, o conjunto de caracteres aceitos, o tipo de compactação e o idioma natural. Caso o servidor não seja capaz de satisfazer a solicitação, será retornado um código de erro.
@@ -336,7 +306,7 @@ Para manter o tráfego controlado, o padrão CoAP também limita o número máxi
 
 \subsection{Correlação da mensagem e mensagens duplicadas}
 
-As mensagens são relacionadas através do campo \textit{Message ID} com uma informação adicional do endpoint. O \textit{Message ID} é um valor de 16 bits do tipo \textit{unsigned integer}, gerado pelo transmissor. Esse \textit{Message ID} deve ser copiado na resposta em uma mensagem do tipo ACK ou \textit{Reset} pelo receptor. Além disso, o \textit{Message ID} não deve ser reutilizado, com o mesmo endpoint, dentro do tempo EXCHANGE\_LIFETIME \ref{coap_parametro_deriv}.
+As mensagens são relacionadas através do campo \textit{Message ID} com uma informação adicional do endpoint. O \textit{Message ID} é um valor de 16 bits do tipo \textit{unsigned integer}, gerado pelo transmissor. Esse \textit{Message ID} deve ser copiado na resposta em uma mensagem do tipo ACK ou \textit{Reset} pelo receptor. Além disso, o \textit{Message ID} não deve ser reutilizado, com o mesmo endpoint, dentro do tempo EXCHANGE\_LIFETIME, figura \ref{coap_parametro_deriv}.
 O receptor pode coletar mais de uma mensagem \textit{Confirmable} com mesmo conteúdo, pode ser descoberto comparando a \textit{Message ID} e o nó fonte, múltiplas vezes dentro do EXCHANGE\_LIFETIME, ele deve enviar mensagens de ACK ou \textit{Reset} para todas as mensagens duplicadas recebidas, porém, só deve processar a mensagem uma vez.
 
 
@@ -364,7 +334,7 @@ Os valores padrões utilizados para retransmissão seguem os valores da tabela \
 	\end{tabular}
 \end{table}
 
-Ainda podemos calcular outros valores, derivados dos primeiros, que são utilizados no padrão, conforme podemos ver na tabela \ref{coap_parametro_deriv}. Os cálculos podem ser visto em detalhes na RFC7252.
+Ainda podemos calcular outros valores, derivados dos primeiros, que são utilizados no padrão, conforme podemos ver na tabela \ref{coap_parametro_deriv}. Para mais detalhes, consultar a RFC7252 \cite{rfc7252_CoAP}.
 
 \begin{table}[!htb]
 	\centering
@@ -388,7 +358,7 @@ Ainda podemos calcular outros valores, derivados dos primeiros, que são utiliza
 \subsection{Pedidos e respostas}
 
 
-Um pedido CoAP consiste em, um método que será aplicado, o identificador do recurso, o \textit{payload}, um \textit{Internet media type}, se presente e um \textit{metadata} opcional sobre o pedido. É identificado no campo \textit{code} do \textit{header}. Ele pode ser do tipo GET, POST, PUT e DELETE, conforme veremos a seguir, que provem do padrão HTTP para facilitar o entendimento, tabela \ref{coap_code_method}. Eles são \textit{idempotents}, ou seja, pode se invocar múltiplas vezes com mesmo efeito, com exceção do POST porque a sua função é determinada dependendo do recurso alvo.
+Um pedido CoAP consiste em, um método que será aplicado, o identificador do recurso, o \textit{payload}, um \textit{Internet media type}, se presente e um \textit{metadata} opcional sobre o pedido. É identificado no campo \textit{code} do \textit{header}. Ele pode ser do tipo GET, POST, PUT e DELETE, seguindo a denominação do padrão HTTP para facilitar o entendimento deste novo padrão, conforme veremos a seguir na tabela \ref{coap_code_method}. Eles são \textit{idempotents}, ou seja, pode se invocar múltiplas vezes com mesmo efeito, com exceção do POST porque a sua função é determinada dependendo do recurso alvo.
 A resposta é identificada da mesma forma, no campo \textit{code} do \textit{header}, tabela \ref{coap_resposta_code}, e indica o resultado da tentativa de entender o pedido.
 As mensagens de pedido e resposta são relacionadas através do \textit{token}, ao invés do \textit{Message ID} como é feito com mensagens \textit{Confirmable} ou \textit{Non-confirmable} e \textit{Acknowledgement} ou \textit{Reset}.
 
@@ -474,7 +444,6 @@ Alguns de seus recursos de hardware são:
 	\item 32KBytes de RAM para instruções;
 	\item 96KBytes de RAM para dados;
 	\item 64KBytes de ROM para boot;
-	\item Possui uma memória Flash SPI Winbond W25Q40BVNIG de 512KBytes;
 	\item O núcleo é baseado no IP Diamand Standard LX3 da Tensilica;
 	\item Fabricado pela Espressif;
 	\item VCC de 3,3V para operar.

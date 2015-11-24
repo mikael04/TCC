@@ -1,8 +1,10 @@
 \chapter{Resultados}
 
-Os testes foram feitos para comparar a taxa de entrega de pacotes, ao variar o método de envio utilizado, POST ou PUT, e a porcentagem de envio, que simula a perda de pacotes, que oscila entre 10 de 100\%.
-Objetivou-se, para o teste, a simulação da perda de pacotes, já que o foco do projeto é aplicar o código em embarcados com conexão sem fio.
-Todos os testes foram feitos em dois computadores, rodando o sistema operacional Linux, na distribuição Linux Mint, que visa a simular um servidor para receber os dados e o cliente embarcado que faz o envio da mensagem.
+Os testes foram feitos para comparar a taxa de entrega de pacotes, ao variar o método de envio utilizado POST ou PUT e a porcentagem de envio que simula a taxa de entrega de pacotes e o tempo de envio de cada mensagem, variando também o método utilizado e a porcentagem de envio. A variação da taxa de entrega foi de 10 a 100\%, variando de 10 em 10\% para cada amostra.
+
+Objetivou-se, para o teste, a simulação da perda de pacotes, já que o foco do projeto é aplicar o código em sistemas embarcados com conexão sem fio.
+
+Todos os testes foram feitos em dois computadores, conectados a redes sem fio, rodando o sistema operacional Linux, na distribuição Linux Mint, que visa a simular um servidor para receber os dados e o cliente embarcado que faz o envio da mensagem.
 
 \section{PUT}
 
@@ -17,7 +19,7 @@ A figura \ref{fig:put_tempo_envio} mostra o primeiro teste, para comparação po
 
 \section{POST 1 tentativa}
 No primeiro teste, conforme a figura \ref{fig:put_num_entregues},
-será demonstrado o número de mensagens entregues, usando o tipo de mensagem POST, com porcentagens que variam de 10 a 100\%.
+será demonstrado o número de mensagens entregues, usando o tipo de mensagem POST, com taxa de erro de pacote de 10 a 100\%.
 Esse teste simulará a taxa de entrega de um método PUT.
 
 \begin{figure}[!htb]
@@ -40,11 +42,6 @@ O primeiro teste deste método, conforme figura \ref{fig:post_num_entregues}, mo
 	\caption{Número de mensagens entregues}
 	\label{fig:post_num_entregues}
 \end{figure}
-\hfill \break
-\hfill \break
-\hfill \break
-\hfill \break
-\hfill \break
 \hfill \break
 \hfill \break
 \hfill \break
